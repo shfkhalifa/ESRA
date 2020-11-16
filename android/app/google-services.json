@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "315116564654",
+    "firebase_url": "https://hbkuesra.firebaseio.com",
+    "project_id": "hbkuesra",
+    "storage_bucket": "hbkuesra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315116564654:android:6d764d0d88f8aadb04fd3f",
+        "android_client_info": {
+          "package_name": "com.techyflow.esra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315116564654-jlnp9lfu9nen4iq9uf6vq89g6dn2081l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techyflow.esra",
+            "certificate_hash": "aedbe29b263e5dc7c322d525bba18875d83ff4fc"
+          }
+        },
+        {
+          "client_id": "315116564654-lksihi7ci6oaeuakkk7semrp5k9q1ajs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkGQU1TivqivbiadH55L_jQF12pjV-F6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315116564654-lksihi7ci6oaeuakkk7semrp5k9q1ajs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "315116564654-leqmj9vmqeruhm7prf33923inqbil933.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techyflow.esra"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

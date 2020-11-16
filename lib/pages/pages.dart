@@ -1,0 +1,10 @@
+export 'package:esra/pages/FAQ/FAQPage.dart';
+export 'package:esra/pages/FAQDetails/FAQDetails.dart';
+export 'package:esra/pages/addChild/addChildPage.dart';
+export 'package:esra/pages/authentication/authenticationPage.dart';
+export 'package:esra/pages/authentication/verfy_phone_number/verify_phone_number.dart';
+export 'package:esra/pages/childDetails/childDetails.dart';
+export 'package:esra/pages/children/ChildrenPage.dart';
+export 'package:esra/pages/evaluation/EvaluatePage.dart';
+export 'package:esra/pages/home/homePage.dart';
+export 'package:esra/pages/splash/splashPage.dart';

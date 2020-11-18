@@ -5,9 +5,10 @@ import 'package:division/division.dart';
 ///
 /// By Younss Ait Mou
 ///
-
+///
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -26,6 +27,7 @@ import '../../repositories/predictionRepository.dart';
 import '../../repositories/userRepository.dart';
 import '../../styles.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 enum PredictionImageSource { camera, gallery }
 
@@ -39,7 +41,7 @@ class EvaluatePage extends StatefulWidget {
 class _EvaluatePageState extends State<EvaluatePage> {
   Child _selectedChild;
   File _selectedImage;
-  File _croppedImage;
+  //File _croppedImage;
   PredictionBloc _predictionBloc;
   http.Client httpClient;
 
@@ -63,12 +65,31 @@ class _EvaluatePageState extends State<EvaluatePage> {
   void _makePrediction(PredictionImageSource source) async {
     switch (source) {
       case PredictionImageSource.gallery:
-        _selectedImage =
-            await ImagePicker.pickImage(source: ImageSource.gallery);
-        if (_selectedImage != null)
-          _croppedImage = await ImageCropper.cropImage(
-            sourcePath: _selectedImage.path,
-          );
+        // 1. Create an ImagePicker instance.
+        final ImagePicker _picker = ImagePicker();
+        final PickedFile pickedImage =
+            await _picker.getImage(source: ImageSource.gallery);
+        if (pickedImage != null) {
+          File tmpFile = File(pickedImage.path);
+
+          // Get the path to the apps directory so we can save the file to it.
+          final Directory dir = await getApplicationDocumentsDirectory();
+          final String myPath = dir.path;
+          final String fileName =
+              path.basename(pickedImage.path); // Filename without extension
+          final String fileExtension =
+              path.extension(pickedImage.path); // e.g. '.jpg'
+
+          // 6. Save the file by copying it to the new location on the device.
+          print(
+              "will copy the new image to the following path: $myPath/$fileName$fileExtension");
+          //_selectedImage = await tmpFile.copy('$myPath/$fileName');
+          final File newImage =
+              await tmpFile.copy('$myPath/$fileName$fileExtension');
+          setState(() {
+            _selectedImage = newImage;
+          });
+        }
         break;
       case PredictionImageSource.camera:
         _selectedImage =
@@ -160,19 +181,22 @@ class _EvaluatePageState extends State<EvaluatePage> {
                 if (state.isPredicting) {
                   return LoadingWidget();
                 } else if (state.isSuccess) {
-                  if (_croppedImage == null) {
-                    print("_croppedImage is null");
+                  if (_selectedImage == null) {
+                    print("_selectedImage is null");
                   }
                   return PredictionResultWidget(
                     label: state.prediction.label,
                     score: state.prediction.score,
-                    image: _croppedImage,
+                    image: _selectedImage,
                     onDismiss: (bool shouldSave) {
                       if (shouldSave) {
+                        print(
+                            "Now we save the following imagePath: ${_selectedImage.path}");
                         // Save prediction result
                         _predictionBloc.add(
                           SavePrediction(
-                            imagePath: _croppedImage.path,
+                            //imagePath: _croppedImage.path,
+                            imagePath: _selectedImage.path,
                             prediction: state.prediction,
                             childId: _selectedChild.id,
                           ),

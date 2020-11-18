@@ -4,6 +4,9 @@
 ///
 /// Home Page
 ///
+///
+import 'dart:io';
+
 import 'package:esra/components/button.dart';
 import 'package:esra/components/drawer/drawer.dart';
 import 'package:esra/models/child.dart';
@@ -29,6 +32,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           if (state.childrenList != null && state.childrenList.length > 0) {
             List<Child> children = state.childrenList;
+            print('retrieving history list ');
             List<Widget> historyList = [];
             for (int i = 0; i < children.length; i++) {
               Child child = children[i];
@@ -42,6 +46,16 @@ class HomePage extends StatelessWidget {
                 ));
                 for (int j = 0; j < child.predictions.length; j++) {
                   Prediction cPrediction = child.predictions[j];
+                  print("\n\n ${cPrediction.toString()}");
+                  File image = File(cPrediction.imagePath);
+                  if (FileImage(image) != null) {
+                    //     CircleAvatar(
+                    //   radius: 100.0,
+                    //   backgroundImage: FileImage(image), // storageImage
+                    // ),
+                    print(
+                        'We retrieved the following image path: ${cPrediction.imagePath}');
+                  }
                   historyList.add(
                     ListTile(
                       contentPadding: EdgeInsets.all(0),
@@ -53,7 +67,11 @@ class HomePage extends StatelessWidget {
                       ),
                       title: Text(cPrediction.label),
                       subtitle: Text(cPrediction.score.toString() + "%"),
-                      trailing: Icon(Icons.chevron_right),
+                      //trailing: Icon(Icons.chevron_right),
+                      trailing: image != null
+                          ? Image(
+                              width: 70, height: 70, image: FileImage(image))
+                          : Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context)
                             .pushNamed("/childDetails", arguments: child);

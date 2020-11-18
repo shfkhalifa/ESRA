@@ -32,10 +32,8 @@ class Prediction {
         date: json['date'] == null ? null : DateTime.parse(json['date']),
       );
 
-  Map<String, dynamic> toJson() => {
-        "label": label,
-        "score": score,
-      };
+  Map<String, dynamic> toJson() =>
+      {"label": label, "score": score, "imagePath": imagePath, "date": date};
 
   @override
   String toString() {

@@ -274,14 +274,12 @@ class UserApiClient {
     String childId,
   }) async {
     File image = File(imagePath);
-
     if (image != null) {
       String fileExtension = path.extension(image.path);
       String uploadUrl;
       GenerateImageUrl generateImageUrl = GenerateImageUrl();
 
       try {
-        // GenerateImageUrl generateImageUrl = GenerateImageUrl();
         await generateImageUrl.call(fileExtension, "esrasavepredictionbucket");
 
         if (generateImageUrl.isGenerated != null &&
@@ -300,28 +298,25 @@ class UserApiClient {
       }
     }
 
-    var request = http.MultipartRequest(
-      "POST",
-      Uri.parse(Strings.SERVER_URL + Strings.SAVE_PREDICTION_URI),
-    );
-    request.fields['score'] = (prediction.score * 100).round().toString();
-    request.fields['label'] = prediction.label;
-    request.fields['childId'] = childId;
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        "img",
-        image.readAsBytesSync(),
-        filename: image.path.split("/").last,
-      ),
-    );
-
+    http.Response response;
     try {
-      http.StreamedResponse response = await request.send();
+      response = await httpClient.post(
+        Strings.SERVER_URL + Strings.SAVE_PREDICTION_URI,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          //HttpHeaders.authorizationHeader: token,
+        },
+        body: json.encode({
+          "score": (prediction.score * 100).round().toString(),
+          "label": prediction.label,
+          "childId": childId,
+          "imagePath": imagePath,
+        }),
+      );
       if (response.statusCode != 200) {
-        throw ErrorHandler(Strings.SOMETHING_WENT_WRONG);
+        throw ErrorHandler(json.decode(response.body)['errorMsg']);
       }
-      var responseContent = await response.stream.bytesToString();
-      print(json.decode(responseContent));
+      return json.decode(response.body);
     } on SocketException {
       throw ErrorHandler(Strings.NO_INTERNET_ERROR);
     } on HttpException {

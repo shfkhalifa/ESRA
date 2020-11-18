@@ -4,8 +4,8 @@ class Strings {
   static const String APP_TITLE = "ESRA";
 
   /// API
-  // static const String SERVER_URL = 'http://192.168.2.104:3000/';
-  static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
+  static const String SERVER_URL = 'http://10.0.2.2:3000/';
+  //static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
   static const String INFERENCE_URL =
       'https://xza68yn910.execute-api.us-east-1.amazonaws.com/Prod/invocations/';
   static const String REMOTE = '';

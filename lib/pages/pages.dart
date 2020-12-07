@@ -8,3 +8,4 @@ export 'package:esra/pages/children/ChildrenPage.dart';
 export 'package:esra/pages/evaluation/EvaluatePage.dart';
 export 'package:esra/pages/home/homePage.dart';
 export 'package:esra/pages/splash/splashPage.dart';
+export 'package:esra/pages/review/resultReviewPage.dart';

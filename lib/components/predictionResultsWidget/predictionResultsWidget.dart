@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:division/division.dart';
 import 'package:esra/utils/constants.dart';
+import 'package:esra/utils/emoCategories.dart';
 import 'package:flutter/material.dart';
 
 class PredictionResultWidget extends StatelessWidget {
@@ -15,6 +16,9 @@ class PredictionResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        '\n\n got the following label and score inside PredictionResultWidget $label, $score');
+    EmoCategories emo = EmoCategories();
     return Container(
       child: Parent(
         style: ParentStyle()..margin(all: 14),
@@ -44,21 +48,9 @@ class PredictionResultWidget extends StatelessWidget {
               Parent(
                 style: ParentStyle()..margin(vertical: 14),
                 child: ListTile(
-                  leading: label == "negative"
-                      ? Icon(
-                          Icons.sentiment_dissatisfied,
-                          color: Colors.red,
-                          size: 32,
-                        )
-                      : Icon(
-                          Icons.sentiment_satisfied,
-                          color: Colors.green,
-                          size: 32,
-                        ),
+                  leading: emo.getEmoIcon(label, score * 100),
                   title: Txt(
-                    label == "positive"
-                        ? Strings.POSITIVE_LABEL
-                        : Strings.NEGATIVE_LABEL,
+                    emo.getEmoLabel(label, score * 100),
                     style: TxtStyle()
                       ..textColor(
                           label == "negative" ? Colors.red : Colors.green),

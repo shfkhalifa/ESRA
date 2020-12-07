@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:esra/pages/pages.dart';
 
+import 'package:esra/models/prediction.dart';
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting args that are passed with Navigator.pushNamed
@@ -40,6 +42,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case '/addChild':
         return MaterialPageRoute(builder: (_) => AddChildPage());
+      case '/resultReview':
+        final prediction = settings.arguments;
+
+        return MaterialPageRoute(
+            builder: (_) => ResultReviewPage(prediction: prediction));
       case '/childDetails':
         final child = settings.arguments;
         return MaterialPageRoute(

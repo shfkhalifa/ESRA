@@ -48,12 +48,9 @@ class _EvaluatePageState extends State<EvaluatePage> {
   @override
   void initState() {
     super.initState();
-    var url = Strings.INFERENCE_URL;
     _predictionBloc =
         PredictionBloc(context.repository<PredictionRepository>());
     httpClient = http.Client();
-    // httpClient.post(
-    //       url);
   }
 
   @override
@@ -63,47 +60,41 @@ class _EvaluatePageState extends State<EvaluatePage> {
   }
 
   void _makePrediction(PredictionImageSource source) async {
+    final ImagePicker _picker = ImagePicker();
+    ImageSource imageSource;
+
     switch (source) {
       case PredictionImageSource.gallery:
-        // 1. Create an ImagePicker instance.
-        final ImagePicker _picker = ImagePicker();
-        final PickedFile pickedImage =
-            await _picker.getImage(source: ImageSource.gallery);
-        if (pickedImage != null) {
-          File tmpFile = File(pickedImage.path);
-
-          // Get the path to the apps directory so we can save the file to it.
-          final Directory dir = await getApplicationDocumentsDirectory();
-          final String myPath = dir.path;
-          final String fileName =
-              path.basename(pickedImage.path); // Filename without extension
-          final String fileExtension =
-              path.extension(pickedImage.path); // e.g. '.jpg'
-
-          // 6. Save the file by copying it to the new location on the device.
-          print(
-              "will copy the new image to the following path: $myPath/$fileName$fileExtension");
-          //_selectedImage = await tmpFile.copy('$myPath/$fileName');
-          final File newImage =
-              await tmpFile.copy('$myPath/$fileName$fileExtension');
-          setState(() {
-            _selectedImage = newImage;
-          });
-        }
+        imageSource = ImageSource.gallery;
         break;
       case PredictionImageSource.camera:
-        _selectedImage =
-            await ImagePicker.pickImage(source: ImageSource.camera);
-        if (_selectedImage != null)
-          _croppedImage =
-              await ImageCropper.cropImage(sourcePath: _selectedImage.path);
-        await GallerySaver.saveImage(_selectedImage.path);
+        imageSource = ImageSource.camera;
         break;
-      default:
     }
-    if (_selectedImage != null)
-      _predictionBloc.add(GetPrediction(imagePath: _selectedImage.path));
-    setState(() {});
+    final PickedFile pickedImage = await _picker.getImage(source: imageSource);
+    if (pickedImage != null) {
+      File tmpFile = File(pickedImage.path);
+
+      // Get the path to the apps directory so we can save the file to it.
+      final Directory dir = await getApplicationDocumentsDirectory();
+      final String myPath = dir.path;
+      final String fileName =
+          path.basename(pickedImage.path); // Filename without extension
+      final String fileExtension =
+          path.extension(pickedImage.path); // e.g. '.jpg'
+      // print(
+      //     "will copy the new image to the following path: $myPath/$fileName$fileExtension");
+      //_selectedImage = await tmpFile.copy('$myPath/$fileName');
+      final File newImage =
+          await tmpFile.copy('$myPath/$fileName$fileExtension');
+      setState(() {
+        _selectedImage = newImage;
+      });
+
+      if (_selectedImage != null)
+        _predictionBloc.add(GetPrediction(imagePath: _selectedImage.path));
+      setState(() {});
+    }
   }
 
   @override
@@ -190,8 +181,6 @@ class _EvaluatePageState extends State<EvaluatePage> {
                     image: _selectedImage,
                     onDismiss: (bool shouldSave) {
                       if (shouldSave) {
-                        print(
-                            "Now we save the following imagePath: ${_selectedImage.path}");
                         // Save prediction result
                         _predictionBloc.add(
                           SavePrediction(

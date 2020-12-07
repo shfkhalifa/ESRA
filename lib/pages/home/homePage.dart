@@ -13,6 +13,7 @@ import 'package:esra/models/child.dart';
 import 'package:esra/models/prediction.dart';
 import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
+import 'package:esra/utils/emoCategories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +33,6 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           if (state.childrenList != null && state.childrenList.length > 0) {
             List<Child> children = state.childrenList;
-            print('retrieving history list ');
             List<Widget> historyList = [];
             for (int i = 0; i < children.length; i++) {
               Child child = children[i];
@@ -53,19 +53,16 @@ class HomePage extends StatelessWidget {
                     //   radius: 100.0,
                     //   backgroundImage: FileImage(image), // storageImage
                     // ),
-                    print(
-                        'We retrieved the following image path: ${cPrediction.imagePath}');
+                    // print(
+                    //     'We retrieved the following image path: ${cPrediction.imagePath}');
                   }
                   historyList.add(
                     ListTile(
                       contentPadding: EdgeInsets.all(0),
-                      leading: Image(
-                        width: 32,
-                        image: AssetImage(cPrediction.label == "positive"
-                            ? AppIcons.happy_128
-                            : AppIcons.sad_128),
-                      ),
-                      title: Text(cPrediction.label),
+                      leading: EmoCategories()
+                          .getEmoIcon(cPrediction.label, cPrediction.score),
+                      title: Text(EmoCategories()
+                          .getEmoLabel(cPrediction.label, cPrediction.score)),
                       subtitle: Text(cPrediction.score.toString() + "%"),
                       //trailing: Icon(Icons.chevron_right),
                       trailing: image != null
@@ -74,7 +71,7 @@ class HomePage extends StatelessWidget {
                           : Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context)
-                            .pushNamed("/childDetails", arguments: child);
+                            .pushNamed("/resultReview", arguments: cPrediction);
                       },
                     ),
                   );

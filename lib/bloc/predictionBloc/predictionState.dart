@@ -10,6 +10,7 @@ class PredictionState {
   final String errorMsg;
   final bool isPredictionDismissed;
   final bool isFeedbackSent;
+  final bool isPredictionSavedSuccess;
   final bool isPredictionSaved;
 
   PredictionState({
@@ -18,6 +19,7 @@ class PredictionState {
     @required this.isFailure,
     @required this.isPredictionDismissed,
     this.isPredictionSaved,
+    this.isPredictionSavedSuccess,
     this.prediction,
     this.isFeedbackSent,
     this.errorMsg,
@@ -31,6 +33,7 @@ class PredictionState {
       isPredictionDismissed: false,
       isFeedbackSent: false,
       isPredictionSaved: false,
+      isPredictionSavedSuccess: false,
     );
   }
 
@@ -41,6 +44,7 @@ class PredictionState {
       isFailure: false,
       isPredictionDismissed: false,
       isPredictionSaved: false,
+      isPredictionSavedSuccess: false,
     );
   }
 
@@ -52,6 +56,7 @@ class PredictionState {
       errorMsg: errorMsg,
       isPredictionDismissed: false,
       isPredictionSaved: false,
+      isPredictionSavedSuccess: false,
     );
   }
   factory PredictionState.success(Prediction prediction) {
@@ -62,6 +67,7 @@ class PredictionState {
       isPredictionDismissed: false,
       prediction: prediction,
       isPredictionSaved: false,
+      isPredictionSavedSuccess: false,
     );
   }
 
@@ -74,6 +80,15 @@ class PredictionState {
     );
   }
 
+  PredictionState saved() {
+    return copyWith(
+      isPredicting: false,
+      isSuccess: false,
+      isFailure: false,
+      isPredictionSaved: true,
+    );
+  }
+
   factory PredictionState.feedbackSent() {
     return PredictionState(
       isPredicting: false,
@@ -82,6 +97,19 @@ class PredictionState {
       isPredictionDismissed: false,
       isFeedbackSent: true,
       isPredictionSaved: false,
+      isPredictionSavedSuccess: false,
+    );
+  }
+
+  factory PredictionState.predictionSavedSuccess() {
+    return PredictionState(
+      isPredicting: false,
+      isSuccess: false,
+      isFailure: false,
+      isPredictionDismissed: false,
+      isFeedbackSent: false,
+      isPredictionSaved: false,
+      isPredictionSavedSuccess: true,
     );
   }
 
@@ -93,22 +121,27 @@ class PredictionState {
       isPredictionDismissed: false,
       isFeedbackSent: false,
       isPredictionSaved: true,
+      isPredictionSavedSuccess: false,
     );
   }
+
   PredictionState copyWith({
     Prediction prediction,
     bool isPredicting,
     bool isSuccess,
     bool isFailure,
     bool isPredictionDismissed,
+    bool isPredictionSaved,
   }) {
     return PredictionState(
       prediction: prediction ?? this.prediction,
       isPredicting: isPredicting ?? this.isPredicting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
-      isPredictionDismissed: isPredictionDismissed ?? this.isPredictionDismissed,
-      isPredictionSaved: false,
+      isPredictionDismissed:
+          isPredictionDismissed ?? this.isPredictionDismissed,
+      isPredictionSaved: isPredictionSaved ?? this.isPredictionSaved,
+      isPredictionSavedSuccess: false,
     );
   }
 
@@ -122,6 +155,7 @@ class PredictionState {
       isPredictionDismissed: $isPredictionDismissed,
       isFeedbackSent: $isFeedbackSent,
       isPredictionSaved: $isPredictionSaved,
+      isPredictionSavedSuccess: $isPredictionSavedSuccess,
       errorMsge: $errorMsg,
     }''';
   }

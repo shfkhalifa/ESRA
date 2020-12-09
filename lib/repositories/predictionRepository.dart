@@ -1,4 +1,5 @@
 import 'package:esra/api/userApiClient.dart';
+import 'package:esra/models/assessment.dart';
 import 'package:esra/models/prediction.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
@@ -44,11 +45,13 @@ class PredictionRepository {
     String imagePath,
     Prediction prediction,
     String childId,
+    AssessmentRecord assessment,
   }) async {
     await userApiClient.savePrediction(
       imagePath: imagePath,
       prediction: prediction,
       childId: childId,
+      assessment: assessment,
     );
   }
 }

@@ -4,8 +4,8 @@ class Strings {
   static const String APP_TITLE = "ESRA";
 
   /// API
-  //static const String SERVER_URL = 'http://10.0.2.2:3000/';
-  static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
+  static const String SERVER_URL = 'http://10.0.2.2:3000/';
+  //static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
   static const String INFERENCE_URL =
       'https://xza68yn910.execute-api.us-east-1.amazonaws.com/Prod/invocations/';
   static const String REMOTE = '';
@@ -88,6 +88,10 @@ class Strings {
   static const String HIGHLY_POSITIVE_LABEL = "HIGHLY POSITIVE";
   static const String SLIGHTLY_NEGATIVE_LABEL = "SLIGHTLY NEGATIVE";
   static const String SLIGHTLY_POSITIVE_LABEL = "SLIGHTLY POSITIVE";
+  static const String ASSESSMENT_CARD_TITLE =
+      "Would you like to talk with your child about this drawing?";
+  static const String ASSESSMENT_CARD_SUBTITLE =
+      "This can greatly help your child to express their feelings and allow you to bond";
 
   static String getLabelDetailText(String label, double score) {
     print('\n LABEL received is: $label');

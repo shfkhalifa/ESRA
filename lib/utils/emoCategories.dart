@@ -5,8 +5,6 @@ import 'package:esra/utils/constants.dart';
 class EmoCategories {
   Icon getEmoIcon(String label, double score) {
     Icon emoIcon = Icon(Icons.sentiment_neutral);
-    print(
-        '\n\n inside getEmoIcon got the following label and score $label, $score');
     if (label == "negative") {
       if (score > 90) //Highly negative
         emoIcon = Icon(

@@ -16,8 +16,8 @@ class PredictionResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        '\n\n got the following label and score inside PredictionResultWidget $label, $score');
+    // print(
+    //     '\n\n got the following label and score inside PredictionResultWidget $label, $score');
     EmoCategories emo = EmoCategories();
     return Container(
       child: Parent(
@@ -64,7 +64,7 @@ class PredictionResultWidget extends StatelessWidget {
                     textColor: Colors.red,
                     child: const Text(Strings.DISMISS_BTN_LABEL),
                     onPressed: () {
-                      // Dismiss the current prediction
+                      // Dismiss the current prediction, shouldSave = false
                       onDismiss(false);
                     },
                   ),

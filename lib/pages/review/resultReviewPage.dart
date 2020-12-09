@@ -21,39 +21,71 @@ class ResultReviewPage extends StatelessWidget {
         body: Container(
           child: Parent(
             style: ParentStyle()..margin(all: 14),
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (File(prediction.imagePath) != null)
-                    Parent(
-                      style: ParentStyle()
-                        ..background.image(
-                            imageProveder:
-                                FileImage(File(prediction.imagePath)),
-                            fit: BoxFit.contain)
-                        ..height(200),
-                      child: Container(),
-                    ),
-                  Parent(
-                    style: ParentStyle()..margin(vertical: 14),
-                    child: ListTile(
-                      leading: EmoCategories()
-                          .getEmoIcon(prediction.label, prediction.score),
-                      title: Txt(
-                        EmoCategories()
-                            .getEmoLabel(prediction.label, prediction.score),
-                        style: TxtStyle()
-                          ..textColor(prediction.label == "negative"
-                              ? Colors.red
-                              : Colors.green),
+            child: Column(
+              children: <Widget>[
+                Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (File(prediction.imagePath) != null)
+                        Parent(
+                          style: ParentStyle()
+                            ..background.image(
+                                imageProveder:
+                                    FileImage(File(prediction.imagePath)),
+                                fit: BoxFit.contain)
+                            ..height(200),
+                          child: Container(),
+                        ),
+                      Parent(
+                        style: ParentStyle()..margin(vertical: 14),
+                        child: ListTile(
+                          leading: EmoCategories()
+                              .getEmoIcon(prediction.label, prediction.score),
+                          title: Txt(
+                            EmoCategories().getEmoLabel(
+                                prediction.label, prediction.score),
+                            style: TxtStyle()
+                              ..textColor(prediction.label == "negative"
+                                  ? Colors.red
+                                  : Colors.green),
+                          ),
+                          subtitle: Text(Strings.getLabelDetailText(
+                              prediction.label, (prediction.score) / 100)),
+                        ),
                       ),
-                      subtitle: Text(Strings.getLabelDetailText(
-                          prediction.label, (prediction.score) / 100)),
+                    ],
+                  ),
+                ),
+                if (prediction.feeling != null)
+                  Card(
+                    child: Parent(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.face,
+                          size: 30,
+                        ),
+                        title: Txt(
+                          'Your child was feeling ' +
+                              prediction.feeling.toLowerCase(),
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                if (prediction.hasStory == 'Yes')
+                  Card(
+                    child: Parent(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.chat_bubble_outline,
+                          size: 30,
+                          color: Colors.cyan,
+                        ),
+                        title: Txt('Your child said this drawing had a story'),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ));

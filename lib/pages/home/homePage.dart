@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
                 ));
                 for (int j = 0; j < child.predictions.length; j++) {
                   Prediction cPrediction = child.predictions[j];
-                  print("\n\n ${cPrediction.toString()}");
+                  //print("\n\n ${cPrediction.toString()}");
                   File image = File(cPrediction.imagePath);
                   if (FileImage(image) != null) {
                     //     CircleAvatar(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:esra/api/generateImageUrl.dart';
 import 'package:esra/api/uploadFile.dart';
+import 'package:esra/models/assessment.dart';
 import 'package:path/path.dart' as path;
 import 'package:esra/models/child.dart';
 import 'package:esra/models/faq.dart';
@@ -224,7 +225,7 @@ class UserApiClient {
           'url': generateImageUrl.downloadUrl,
         });
 
-        print('Body: $body');
+        //print('Body: $body');
 
         var client = new RetryClient(new http.Client(), retries: 3,
             when: (http.BaseResponse response) {
@@ -272,6 +273,7 @@ class UserApiClient {
     String imagePath,
     Prediction prediction,
     String childId,
+    AssessmentRecord assessment,
   }) async {
     File image = File(imagePath);
     if (image != null) {
@@ -311,6 +313,9 @@ class UserApiClient {
           "label": prediction.label,
           "childId": childId,
           "imagePath": imagePath,
+          "isChildInPhoto": assessment.isChildInPhoto,
+          "feeling": assessment.feeling,
+          "hasStory": assessment.hasStory,
         }),
       );
       if (response.statusCode != 200) {

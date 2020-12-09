@@ -26,6 +26,7 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   flutter_secure_storage: ^3.3.2
   http: ^0.12.0+4
+  custom_radio_grouped_button: any
   #image_picker: ^0.6.2+3
   image_picker: 0.6.7+14
   division: ^0.8.7+2

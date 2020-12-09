@@ -22,15 +22,19 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
     if (event is GetPrediction) {
       yield* _mapGetPredictionToState(event.imagePath);
     }
-    if (event is SavePrediction) {
-      yield* _mapSavePredictionToState(
+    if (event is SavePredictionSuccess) {
+      yield* _mapSavePredictionSuccessToState(
         imagePath: event.imagePath,
         prediction: event.prediction,
         childId: event.childId,
+        assessment: event.assessment,
       );
     }
     if (event is DismissPrediction) {
       yield* _mapDismissPredictionToState();
+    }
+    if (event is SavePrediction) {
+      yield* _mapSavePredictionToState();
     }
     if (event is SendFeedback) {
       yield* _mapSendFeedbackToState(
@@ -46,7 +50,8 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
   Stream<PredictionState> _mapGetPredictionToState(String imagePath) async* {
     yield PredictionState.loading();
     try {
-      Prediction prediction = await _predictionRepository.getPrediction(imagePath);
+      Prediction prediction =
+          await _predictionRepository.getPrediction(imagePath);
       yield PredictionState.success(prediction);
     } catch (e) {
       yield PredictionState.failure(e.toString());
@@ -57,6 +62,15 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
     yield PredictionState.loading();
     try {
       yield state.dismissed();
+    } catch (e) {
+      yield PredictionState.failure(e.toString());
+    }
+  }
+
+  Stream<PredictionState> _mapSavePredictionToState() async* {
+    yield PredictionState.loading();
+    try {
+      yield state.saved();
     } catch (e) {
       yield PredictionState.failure(e.toString());
     }
@@ -84,19 +98,20 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
     }
   }
 
-  Stream<PredictionState> _mapSavePredictionToState({
+  Stream<PredictionState> _mapSavePredictionSuccessToState({
     imagePath,
     prediction,
     childId,
+    assessment,
   }) async* {
     yield PredictionState.loading();
     try {
       await _predictionRepository.savePrediction(
-        imagePath: imagePath,
-        prediction: prediction,
-        childId: childId,
-      );
-      yield PredictionState.predictionSaved();
+          imagePath: imagePath,
+          prediction: prediction,
+          childId: childId,
+          assessment: assessment);
+      yield PredictionState.predictionSavedSuccess();
     } catch (e) {
       yield PredictionState.failure(e.toString());
     }

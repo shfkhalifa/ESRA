@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:division/division.dart';
+import 'package:esra/models/assessment.dart';
 
 ///
 /// By Younss Ait Mou
@@ -11,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:image_cropper/image_cropper.dart';
+// import 'package:gallery_saver/gallery_saver.dart';
+// import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../bloc/manageChildrenBloc/mangeChildren.dart';
@@ -20,6 +21,7 @@ import '../../bloc/predictionBloc/prediction.dart';
 import '../../components/dialogs/infoDialog.dart';
 import '../../components/errorWidget/errorWidget.dart';
 import '../../components/feedbackWidget/feedBackWidget.dart';
+import '../../components/AssessmentWidget/AssessmentWidget.dart';
 import '../../components/loadingWidget/loadingWidget.dart';
 import '../../components/predictionResultsWidget/predictionResultsWidget.dart';
 import '../../models/child.dart';
@@ -111,7 +113,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                 Strings.FEEDBACK_CONFIRMATION_DIALOG_TITLE,
                 Strings.FEEDBACK_CONFIRMATION_DIALOG_BODY,
               );
-            } else if (state.isPredictionSaved) {
+            } else if (state.isPredictionSavedSuccess) {
               // Acknowledge prediction saved successfully dialog
               BlocProvider.of<ManagechildrenBloc>(context).add(GetChildren());
               await infoDialog(
@@ -183,12 +185,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                       if (shouldSave) {
                         // Save prediction result
                         _predictionBloc.add(
-                          SavePrediction(
-                            //imagePath: _croppedImage.path,
-                            imagePath: _selectedImage.path,
-                            prediction: state.prediction,
-                            childId: _selectedChild.id,
-                          ),
+                          SavePrediction(),
                         );
                       } else {
                         _predictionBloc.add(DismissPrediction());
@@ -208,6 +205,24 @@ class _EvaluatePageState extends State<EvaluatePage> {
                         prediction: state.prediction,
                         token: token,
                       ));
+                    },
+                  );
+                } else if (state.isPredictionSaved) {
+                  //TODO: here we implement the survery and find a way to keep the prediction
+                  return AssessmentWidget(
+                    onSubmitted: (AssessmentRecord record) async {
+                      print('eval ${record.isChildInPhoto}');
+                      print(record.hasStory);
+                      print(record.feeling);
+                      _predictionBloc.add(
+                        SavePredictionSuccess(
+                          //imagePath: _croppedImage.path,
+                          imagePath: _selectedImage.path,
+                          prediction: state.prediction,
+                          childId: _selectedChild.id,
+                          assessment: record,
+                        ),
+                      );
                     },
                   );
                 } else if (state.isFailure) {

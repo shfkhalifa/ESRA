@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:esra/bloc/predictionBloc/prediction.dart';
+import 'package:esra/models/assessment.dart';
 import 'package:esra/models/prediction.dart';
 import 'package:meta/meta.dart';
 
@@ -20,17 +21,28 @@ class GetPrediction extends PredictionEvent {
 }
 
 class SavePrediction extends PredictionEvent {
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'SavePrediction';
+}
+
+class SavePredictionSuccess extends PredictionEvent {
   final String imagePath;
   final Prediction prediction;
   final String childId;
+  final AssessmentRecord assessment;
 
-  const SavePrediction({this.imagePath, this.prediction, this.childId});
+  const SavePredictionSuccess(
+      {this.imagePath, this.prediction, this.childId, this.assessment});
 
   @override
-  List<Object> get props => [imagePath, prediction, childId];
+  List<Object> get props => [imagePath, prediction, childId, assessment];
 
   @override
-  String toString() => 'Label image { imagePath: $imagePath, prediction: $prediction, childId: $childId }';
+  String toString() =>
+      'Label image { imagePath: $imagePath, prediction: $prediction, childId: $childId, assessment: $assessment }';
 }
 
 class DismissPrediction extends PredictionEvent {
@@ -48,7 +60,12 @@ class SendFeedback extends PredictionEvent {
   final Prediction prediction;
   final String token;
 
-  SendFeedback({this.childId, this.imagePath, this.feedbackMsg, this.prediction, this.token});
+  SendFeedback(
+      {this.childId,
+      this.imagePath,
+      this.feedbackMsg,
+      this.prediction,
+      this.token});
   @override
   List<Object> get props => [feedbackMsg];
 

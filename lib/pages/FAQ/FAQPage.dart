@@ -31,11 +31,13 @@ class FAQPage extends StatelessWidget {
                 return ListTile(
                   onTap: () {
                     // Show the faq detail page
-                    Navigator.of(context).pushNamed('/FAQDetails', arguments: faq);
+                    Navigator.of(context)
+                        .pushNamed('/FAQDetails', arguments: faq);
                   },
                   title: Text(
                     faq.title,
-                    style: TextStyle(color: AppStyles.darkBlue, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: AppStyles.darkBlue, fontWeight: FontWeight.bold),
                   ),
                   trailing: Icon(Icons.chevron_right),
                 );

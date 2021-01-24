@@ -8,7 +8,7 @@ import 'package:esra/components/assessmentWidget/assessCardsWidget.dart';
 enum assessChoice { yes, no }
 
 class AssessmentWidget extends StatefulWidget {
-  final Function(AssessmentRecord) onSubmitted;
+  final Function([AssessmentRecord]) onSubmitted;
   const AssessmentWidget({Key key, @required this.onSubmitted})
       : super(key: key);
 
@@ -19,7 +19,7 @@ class AssessmentWidget extends StatefulWidget {
 class _AssessmentWidgetState extends State<AssessmentWidget> {
   final TextEditingController _feedbackTextController = TextEditingController();
   //final _assessmentFormKey = GlobalKey<FormState>();
-  assessChoice _assessChoice = assessChoice.no;
+  assessChoice _assessChoice;
 
   @override
   void dispose() {
@@ -50,7 +50,7 @@ class _AssessmentWidgetState extends State<AssessmentWidget> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 100, bottom: 30, top: 20),
-                    child: customRadioButton2(
+                    child: customRadioButton(
                         ['Yes', 'No'], [assessChoice.yes, assessChoice.no],
                         storeValue: (value) {
                       setState(() {
@@ -61,8 +61,21 @@ class _AssessmentWidgetState extends State<AssessmentWidget> {
                 ],
               ),
             ),
+            SizedBox(height: 30),
             if (_assessChoice == assessChoice.yes)
-              AssessmentCardsWidget(onSubmitted: widget.onSubmitted),
+              AssessmentCardsWidget(onSubmitted: widget.onSubmitted)
+            else if (_assessChoice == assessChoice.no)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: FlatButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  child: Text('Submit'),
+                  onPressed: () {
+                    widget.onSubmitted();
+                  },
+                ),
+              )
           ],
         ),
       ),

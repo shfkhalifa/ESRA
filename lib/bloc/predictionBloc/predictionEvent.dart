@@ -33,16 +33,22 @@ class SavePredictionSuccess extends PredictionEvent {
   final Prediction prediction;
   final String childId;
   final AssessmentRecord assessment;
+  final String assessAvailable;
 
   const SavePredictionSuccess(
-      {this.imagePath, this.prediction, this.childId, this.assessment});
+      {this.imagePath,
+      this.prediction,
+      this.childId,
+      this.assessment,
+      this.assessAvailable});
 
   @override
-  List<Object> get props => [imagePath, prediction, childId, assessment];
+  List<Object> get props =>
+      [imagePath, prediction, childId, assessment, assessAvailable];
 
   @override
   String toString() =>
-      'Label image { imagePath: $imagePath, prediction: $prediction, childId: $childId, assessment: $assessment }';
+      'Label image { imagePath: $imagePath, prediction: $prediction, childId: $childId, assessment: $assessment, assessAvailable: $assessAvailable}';
 }
 
 class DismissPrediction extends PredictionEvent {

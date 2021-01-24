@@ -18,6 +18,10 @@ class Prediction {
   String feeling;
   String isChildInPhoto;
   String hasStory;
+  String isSpontaneous;
+  String isInGroup;
+  String isBeforeSchool;
+  String assessAvailable;
 
   Prediction(
       {this.id,
@@ -27,18 +31,25 @@ class Prediction {
       this.date,
       this.feeling,
       this.isChildInPhoto,
-      this.hasStory});
+      this.hasStory,
+      this.isSpontaneous,
+      this.isInGroup,
+      this.isBeforeSchool,
+      this.assessAvailable});
 
   factory Prediction.fromJson(Map<String, dynamic> json) => Prediction(
-        id: json["_id"] == null ? null : json['_id'],
-        label: json["label"],
-        score: json["score"].toDouble(),
-        imagePath: json["imagePath"] == null ? null : json["imagePath"],
-        date: json['date'] == null ? null : DateTime.parse(json['date']),
-        feeling: json["feeling"],
-        isChildInPhoto: json['isChildInPhoto'],
-        hasStory: json['hasStory'],
-      );
+      id: json["_id"] == null ? null : json['_id'],
+      label: json["label"],
+      score: json["score"].toDouble(),
+      imagePath: json["imagePath"] == null ? null : json["imagePath"],
+      date: json['date'] == null ? null : DateTime.parse(json['date']),
+      feeling: json["feeling"],
+      isChildInPhoto: json['isChildInPhoto'],
+      hasStory: json['hasStory'],
+      isSpontaneous: json['isSpontaneous'],
+      isInGroup: json['isInGroup'],
+      isBeforeSchool: json['isBeforeSchool'],
+      assessAvailable: json['assessAvailable']);
 
   Map<String, dynamic> toJson() => {
         "label": label,
@@ -47,7 +58,11 @@ class Prediction {
         "date": date,
         "feeling": feeling,
         "isChildInPhoto": isChildInPhoto,
-        "hasStory": hasStory
+        "hasStory": hasStory,
+        "isSpontaneous": isSpontaneous,
+        "isInGroup": isInGroup,
+        "isBeforeSchool": isBeforeSchool,
+        "assessAvailable": assessAvailable
       };
 
   @override
@@ -58,9 +73,13 @@ class Prediction {
       score: $score,
       imagePath: $imagePath,
       date: $date,
-      feeling: $feeling
-      hasStory: $hasStory
-      isChildInPhoto: $isChildInPhoto
+      feeling: $feeling,
+      hasStory: $hasStory,
+      isChildInPhoto: $isChildInPhoto,
+      isSpontaneous: $isSpontaneous,
+      isInGroup: $isInGroup,
+      isBeforeSchool: $isBeforeSchool,
+      assessAvailable: $assessAvailable,
     })""";
   }
 }

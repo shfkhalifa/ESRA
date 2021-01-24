@@ -146,8 +146,8 @@ class UserApiClient {
   ///_______________________________________
   /// Add a child
   ///---------------------------------------
-  Future<int> addNewChild(String childName, String childAge, String childGender,
-      String token) async {
+  Future<int> addNewChild(
+      String childName, String dob, String childGender, String token) async {
     http.Response response;
     String parentId = getUserIdFromToken(token);
     try {
@@ -159,7 +159,7 @@ class UserApiClient {
         },
         body: json.encode({
           "name": childName,
-          "age": childAge,
+          "dob": dob,
           "gender": childGender,
           "parentId": parentId,
         }),
@@ -222,10 +222,8 @@ class UserApiClient {
         // http.StreamedResponse response = await request.send();
         var url = Strings.INFERENCE_URL;
         var body = json.encode({
-          'url': generateImageUrl.downloadUrl,
+          "url": generateImageUrl.downloadUrl,
         });
-
-        //print('Body: $body');
 
         var client = new RetryClient(new http.Client(), retries: 3,
             when: (http.BaseResponse response) {
@@ -240,22 +238,25 @@ class UserApiClient {
           body: body,
         );
 
-        //This is a workaround to fix the cold start problem of AWS Lambda temporarily
+        var hmResponse = await httpClient.post(Strings.HEATMAP_URL,
+            //'http://192.168.138.129:5000/heatmap', //local host
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: body);
 
-        if (response.statusCode != 200) {
-          throw ErrorHandler(Strings.SOMETHING_WENT_WRONG);
-        }
-        if (response.statusCode == 200) {
-          print('SUCCESSFULLLL ${response.body.toString()}');
-        }
-        //var responseContent = await response.stream.bytesToString();
-        //print(json.decode(responseContent));
+        String hmBasefile = path.basename(image.path);
+        hmBasefile = 'hm_' + hmBasefile;
+        String imageDir = path.dirname(image.path);
+
+        File file = new File('$imageDir/$hmBasefile');
+        //print(hmResponse.statusCode);
+        await file.writeAsBytes(hmResponse.bodyBytes);
+        print('heatmap file saved in : ${file.path}');
 
         Prediction prediction = Prediction.fromJson(jsonDecode(response.body));
         prediction.imagePath = imagePath;
         return prediction;
-        // return {'label': json.decode(responseContent)['label'], 'score': json.decode(responseContent)['score'] * 100};
-
       } on SocketException {
         throw ErrorHandler(Strings.NO_INTERNET_ERROR);
       } on HttpException {
@@ -274,6 +275,7 @@ class UserApiClient {
     Prediction prediction,
     String childId,
     AssessmentRecord assessment,
+    String assessAvailable,
   }) async {
     File image = File(imagePath);
     if (image != null) {
@@ -313,9 +315,16 @@ class UserApiClient {
           "label": prediction.label,
           "childId": childId,
           "imagePath": imagePath,
-          "isChildInPhoto": assessment.isChildInPhoto,
-          "feeling": assessment.feeling,
-          "hasStory": assessment.hasStory,
+          "assessAvailable": assessAvailable,
+          "isChildInPhoto":
+              (assessment == null) ? null : assessment.isChildInPhoto,
+          "feeling": (assessment == null) ? null : assessment.feeling,
+          "hasStory": (assessment == null) ? null : assessment.hasStory,
+          "isSpontaneous":
+              (assessment == null) ? null : assessment.isSpontaneous,
+          "isInGroup": (assessment == null) ? null : assessment.isInGroup,
+          "isBeforeSchool":
+              (assessment == null) ? null : assessment.isBeforeSchool
         }),
       );
       if (response.statusCode != 200) {

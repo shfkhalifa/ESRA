@@ -26,15 +26,15 @@ class ChildNameChanged extends ManagechildrenEvent {
 }
 
 class ChildAgeChanged extends ManagechildrenEvent {
-  final String childAge;
+  final String dob;
 
-  const ChildAgeChanged({@required this.childAge});
-
-  @override
-  List<Object> get props => [childAge];
+  const ChildAgeChanged({@required this.dob});
 
   @override
-  String toString() => 'ChildAgeChanged { Child Age: $childAge }';
+  List<Object> get props => [dob];
+
+  @override
+  String toString() => 'ChildAgeChanged { Child DOB: $dob }';
 }
 
 class ChildGenderChanged extends ManagechildrenEvent {
@@ -68,20 +68,20 @@ class GetChildren extends ManagechildrenEvent {
 
 class Submitted extends ManagechildrenEvent {
   final String childName;
-  final String childAge;
+  final String dob;
   final String childGender;
 
   const Submitted({
     @required this.childName,
-    @required this.childAge,
+    @required this.dob,
     @required this.childGender,
   });
 
   @override
-  List<Object> get props => [childName, childAge, childGender];
+  List<Object> get props => [childName, dob, childGender];
 
   @override
   String toString() {
-    return 'Submitted { childName: $childName, childAge: $childAge, childGender: $childGender }';
+    return 'Submitted { childName: $childName, dob: $dob, childGender: $childGender }';
   }
 }

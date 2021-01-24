@@ -28,6 +28,7 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
         prediction: event.prediction,
         childId: event.childId,
         assessment: event.assessment,
+        assessAvailable: event.assessAvailable,
       );
     }
     if (event is DismissPrediction) {
@@ -103,6 +104,7 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
     prediction,
     childId,
     assessment,
+    assessAvailable,
   }) async* {
     yield PredictionState.loading();
     try {
@@ -110,7 +112,8 @@ class PredictionBloc extends Bloc<PredictionEvent, PredictionState> {
           imagePath: imagePath,
           prediction: prediction,
           childId: childId,
-          assessment: assessment);
+          assessment: assessment,
+          assessAvailable: assessAvailable);
       yield PredictionState.predictionSavedSuccess();
     } catch (e) {
       yield PredictionState.failure(e.toString());

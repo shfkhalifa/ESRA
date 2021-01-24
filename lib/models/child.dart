@@ -12,7 +12,7 @@ String childrenToJson(Child data) => json.encode(data.toJson());
 class Child {
   String id;
   String name;
-  int age;
+  String dob;
   String gender;
   String parentId;
   List<Prediction> predictions;
@@ -20,7 +20,7 @@ class Child {
   Child({
     this.id,
     this.name,
-    this.age,
+    this.dob,
     this.gender,
     this.parentId,
     this.predictions,
@@ -29,18 +29,19 @@ class Child {
   factory Child.fromJson(Map<String, dynamic> json) => Child(
         id: json["_id"],
         name: json["name"],
-        age: json["age"],
+        dob: json["dob"],
         gender: json["gender"],
         parentId: json["parentId"],
         predictions: json["predictions"] == null
             ? null
-            : List<Prediction>.from(json["predictions"].map((x) => Prediction.fromJson(x))),
+            : List<Prediction>.from(
+                json["predictions"].map((x) => Prediction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
-        "age": age,
+        "dob": dob,
         "gender": gender,
         "parentId": parentId,
         // "predictions": predictions,
@@ -52,7 +53,7 @@ class Child {
     return """Child({
       _id: $id,
       name: $name,
-      age: $age,
+      dob: $dob,
       gender: $gender,
       prentId: $parentId,
       predictions: $predictions,

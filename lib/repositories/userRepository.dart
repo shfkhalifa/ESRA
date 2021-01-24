@@ -64,20 +64,22 @@ class UserRepository {
     // return "Authenticated User";
   }
 
-  Future<List<Child>> addChild({String name, String age, String gender}) async {
+  Future<List<Child>> addChild({String name, String dob, String gender}) async {
     String token = await readToken();
-    await userApiClient.addNewChild(name, age, gender, token);
+    await userApiClient.addNewChild(name, dob, gender, token);
     List<Child> childrenList = await getChildren();
     await updateLocalChildrenCount(childrenList.length);
     return childrenList;
   }
 
   Future<void> updateLocalChildrenCount(int newCount) async {
-    await _storage.write(key: Strings.ESRA_USER_CHILDREN_COUNT, value: newCount.toString());
+    await _storage.write(
+        key: Strings.ESRA_USER_CHILDREN_COUNT, value: newCount.toString());
   }
 
   Future<int> readLocalChildrenCount() async {
-    String childrenCount = await _storage.read(key: Strings.ESRA_USER_CHILDREN_COUNT);
+    String childrenCount =
+        await _storage.read(key: Strings.ESRA_USER_CHILDREN_COUNT);
     return int.parse(childrenCount);
   }
 
@@ -95,7 +97,8 @@ class UserRepository {
   // Phone Verification Id
   String _verificationId;
 
-  Future<bool> sendVerCode({@required String phoneNumber, @required String email}) async {
+  Future<bool> sendVerCode(
+      {@required String phoneNumber, @required String email}) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     bool isUserAutoVerified = false;
 
@@ -107,11 +110,13 @@ class UserRepository {
     /// Firebase has sent a verification code to the phone number
     /// We need to keep hold onto the verification code since we need it
     /// to manually sign user in if the autho retrieve didn't occure!
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) async {
+    final PhoneCodeSent smsCodeSent =
+        (String verId, [int forceCodeResend]) async {
       _verificationId = verId;
     };
 
-    final PhoneVerificationCompleted verificationCompleted = (AuthCredential credential) async {
+    final PhoneVerificationCompleted verificationCompleted =
+        (AuthCredential credential) async {
       try {
         _auth.signInWithCredential(credential);
         await userApiClient.activateUser(email); // we have to notify the ui!!!
@@ -139,9 +144,10 @@ class UserRepository {
   /// This function should be called after the user has received the verification code
   /// entered the code in the actiation page and hit 'VERIFY' button
   ///
-  Future<void> verifyPhoneNo({@required String smsCode, @required String email}) async {
-    final AuthCredential credential =
-        PhoneAuthProvider.getCredential(verificationId: _verificationId, smsCode: smsCode);
+  Future<void> verifyPhoneNo(
+      {@required String smsCode, @required String email}) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+        verificationId: _verificationId, smsCode: smsCode);
     try {
       await FirebaseAuth.instance.signInWithCredential(credential);
       await userApiClient.activateUser(email);

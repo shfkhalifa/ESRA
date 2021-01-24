@@ -125,15 +125,15 @@ class _AddChildPageState extends State<AddChildPage> {
                         controller: _childAgeController,
                         decoration: InputDecoration(
                           prefixIcon: Image(image: AssetImage(AppIcons.year)),
-                          labelText: Strings.CHILD_AGE_FORM_LABEL,
+                          labelText: Strings.CHILD_DOB_FORM_LABEL,
                           labelStyle: TextStyle(color: AppStyles.darkBlue),
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         autovalidate: true,
                         autocorrect: false,
                         validator: (_) {
-                          return !state.isChildAgeValid
-                              ? 'Age must be between 1 and 18 years!'
+                          return !state.isDOBValid
+                              ? 'Enter as dd/mm/yyyy'
                               : null;
                         },
                       ),
@@ -174,7 +174,7 @@ class _AddChildPageState extends State<AddChildPage> {
 
   _onChildAgeChanged() {
     BlocProvider.of<ManagechildrenBloc>(context)
-        .add(ChildAgeChanged(childAge: _childAgeController.text));
+        .add(ChildAgeChanged(dob: _childAgeController.text));
   }
 
   void _onFormSubmitted() {
@@ -182,7 +182,7 @@ class _AddChildPageState extends State<AddChildPage> {
     BlocProvider.of<ManagechildrenBloc>(context).add(
       Submitted(
         childName: _childNameController.text,
-        childAge: _childAgeController.text,
+        dob: _childAgeController.text,
         childGender: _gender,
       ),
     );

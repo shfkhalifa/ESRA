@@ -87,8 +87,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
       // print(
       //     "will copy the new image to the following path: $myPath/$fileName$fileExtension");
       //_selectedImage = await tmpFile.copy('$myPath/$fileName');
-      final File newImage =
-          await tmpFile.copy('$myPath/$fileName$fileExtension');
+      final File newImage = await tmpFile.copy('$myPath/$fileName');
       setState(() {
         _selectedImage = newImage;
       });
@@ -210,10 +209,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                 } else if (state.isPredictionSaved) {
                   //TODO: here we implement the survery and find a way to keep the prediction
                   return AssessmentWidget(
-                    onSubmitted: (AssessmentRecord record) async {
-                      print('eval ${record.isChildInPhoto}');
-                      print(record.hasStory);
-                      print(record.feeling);
+                    onSubmitted: ([AssessmentRecord record]) async {
                       _predictionBloc.add(
                         SavePredictionSuccess(
                           //imagePath: _croppedImage.path,
@@ -221,6 +217,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                           prediction: state.prediction,
                           childId: _selectedChild.id,
                           assessment: record,
+                          assessAvailable: (record != null) ? 'true' : 'false',
                         ),
                       );
                     },

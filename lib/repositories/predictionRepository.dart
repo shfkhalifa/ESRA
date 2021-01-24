@@ -46,12 +46,14 @@ class PredictionRepository {
     Prediction prediction,
     String childId,
     AssessmentRecord assessment,
+    String assessAvailable,
   }) async {
     await userApiClient.savePrediction(
       imagePath: imagePath,
       prediction: prediction,
       childId: childId,
       assessment: assessment,
+      assessAvailable: assessAvailable,
     );
   }
 }

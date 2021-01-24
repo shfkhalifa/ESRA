@@ -5,11 +5,29 @@ Widget customRadioButton2(List<String> labels, List<dynamic> values,
     {Function storeValue}) {
   return CustomRadioButton(
     unSelectedColor: Colors.white,
+    unSelectedBorderColor: Colors.black12,
     buttonLables: labels,
     buttonValues: values,
     radioButtonValue: (value) => storeValue(value),
     selectedColor: Colors.blue,
+    horizontal: true,
+    absoluteZeroSpacing: true,
+    spacing: 0.2,
+  );
+}
+
+Widget customRadioButton(List<String> labels, List<dynamic> values,
+    {Function storeValue}) {
+  return CustomRadioButton(
+    unSelectedColor: Colors.white,
+    buttonLables: labels,
+    buttonValues: values,
+    radioButtonValue: (value) => storeValue(value),
+    selectedColor: Colors.blue[700],
+    unSelectedBorderColor: Colors.grey,
+    selectedBorderColor: Colors.white,
+    enableShape: true,
     //absoluteZeroSpacing: true,
-    width: 80,
+    //width: 80,
   );
 }

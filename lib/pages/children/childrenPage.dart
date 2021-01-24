@@ -37,14 +37,26 @@ class ChildrenPage extends StatelessWidget {
                 child: GridView.builder(
                   itemCount: state.childrenList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 24, mainAxisSpacing: 24),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 24),
                   itemBuilder: (BuildContext context, int index) {
+                    int age;
                     Child child = state.childrenList[index];
+                    if (child.dob != null) {
+                      DateTime _dateTime = DateTime.parse(child.dob);
+                      age = DateTime.fromMillisecondsSinceEpoch(DateTime.now()
+                                  .difference(_dateTime)
+                                  .inMilliseconds)
+                              .year -
+                          1970;
+                    }
                     return Parent(
                       gesture: Gestures()
                         ..onTap(
                           () {
-                            Navigator.of(context).pushNamed('/childDetails', arguments: child);
+                            Navigator.of(context)
+                                .pushNamed('/childDetails', arguments: child);
                           },
                         ),
                       style: ParentStyle()
@@ -57,14 +69,18 @@ class ChildrenPage extends StatelessWidget {
                         children: <Widget>[
                           Image(
                             width: 64,
-                            image: AssetImage(child.gender == 'boy' ? AppIcons.boy_128 : AppIcons.girl_128),
+                            image: AssetImage(child.gender == 'boy'
+                                ? AppIcons.boy_128
+                                : AppIcons.girl_128),
                           ),
                           SizedBox(height: 14),
                           Txt(
-                            '${child.name[0].toUpperCase()}${child.name.substring(1).toLowerCase()}',
+                            '${child.name[0].toUpperCase()}${child.name.substring(1).toLowerCase()}' +
+                                '${(age != null) ? '\n $age years' : ' '}',
                             style: TxtStyle()
                               ..bold()
-                              ..textColor(AppStyles.darkBlue),
+                              ..textColor(AppStyles.darkBlue)
+                              ..textAlign.center(),
                           ),
                         ],
                       ),

@@ -4,7 +4,7 @@ import 'package:esra/models/child.dart';
 @immutable
 class ManagechildrenState {
   final bool isChildNameValid;
-  final bool isChildAgeValid;
+  final bool isDOBValid;
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
@@ -12,11 +12,11 @@ class ManagechildrenState {
   final List<Child> childrenList;
   final bool isLoadingChildren;
 
-  bool get isFormValid => isChildNameValid && isChildAgeValid;
+  bool get isFormValid => isChildNameValid && isDOBValid;
 
   ManagechildrenState({
     @required this.isChildNameValid,
-    @required this.isChildAgeValid,
+    @required this.isDOBValid,
     @required this.isSubmitting,
     @required this.isSuccess,
     @required this.isFailure,
@@ -28,7 +28,7 @@ class ManagechildrenState {
   factory ManagechildrenState.empty() {
     return ManagechildrenState(
       isChildNameValid: true,
-      isChildAgeValid: true,
+      isDOBValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
@@ -39,7 +39,7 @@ class ManagechildrenState {
   factory ManagechildrenState.loading() {
     return ManagechildrenState(
       isChildNameValid: true,
-      isChildAgeValid: true,
+      isDOBValid: true,
       isSubmitting: true,
       isSuccess: false,
       isFailure: false,
@@ -49,7 +49,7 @@ class ManagechildrenState {
   factory ManagechildrenState.failure({String errorMsg}) {
     return ManagechildrenState(
       isChildNameValid: true,
-      isChildAgeValid: true,
+      isDOBValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
@@ -60,7 +60,7 @@ class ManagechildrenState {
   factory ManagechildrenState.success({List<Child> childrenList}) {
     return ManagechildrenState(
         isChildNameValid: true,
-        isChildAgeValid: true,
+        isDOBValid: true,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,
@@ -69,13 +69,13 @@ class ManagechildrenState {
 
   ManagechildrenState update({
     bool isChildNameValid,
-    bool isChildAgeValid,
+    bool isDOBValid,
     List<Child> childrenList,
     bool isLoadingchildren,
   }) {
     return copyWith(
         isChildNameValid: isChildNameValid,
-        isChildAgeValid: isChildAgeValid,
+        isDOBValid: isDOBValid,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -85,7 +85,7 @@ class ManagechildrenState {
 
   ManagechildrenState copyWith({
     bool isChildNameValid,
-    bool isChildAgeValid,
+    bool isDOBValid,
     bool isSubmitEnabled,
     bool isSubmitting,
     bool isSuccess,
@@ -95,7 +95,7 @@ class ManagechildrenState {
   }) {
     return ManagechildrenState(
       isChildNameValid: isChildNameValid ?? this.isChildNameValid,
-      isChildAgeValid: isChildAgeValid ?? this.isChildAgeValid,
+      isDOBValid: isDOBValid ?? this.isDOBValid,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
@@ -108,7 +108,7 @@ class ManagechildrenState {
   String toString() {
     return '''ManagechildrenSate {
       isChildNameValid: $isChildNameValid,
-      isChildAgeValid: $isChildAgeValid,
+      isDOBValid: $isDOBValid,
       isSubmitting: $isSubmitting,
       isSuccess: $isSuccess,
       isFailure: $isFailure,

@@ -5,7 +5,8 @@ import 'package:esra/repositories/userRepository.dart';
 import 'package:esra/utils/validators.dart';
 import './mangeChildren.dart';
 
-class ManagechildrenBloc extends Bloc<ManagechildrenEvent, ManagechildrenState> {
+class ManagechildrenBloc
+    extends Bloc<ManagechildrenEvent, ManagechildrenState> {
   final UserRepository _userRepository;
 
   ManagechildrenBloc(this._userRepository);
@@ -20,7 +21,7 @@ class ManagechildrenBloc extends Bloc<ManagechildrenEvent, ManagechildrenState> 
     if (event is ChildNameChanged) {
       yield* _mapChildNameChangedToState(event.childName);
     } else if (event is ChildAgeChanged) {
-      yield* _mapChildAgeChangedToState(event.childAge);
+      yield* _mapChildAgeChangedToState(event.dob);
     }
     // else if (event is ChildrenCountChanged) {
     //   yield* _mapChildrenCountChangedToState(event.childrenList);
@@ -28,7 +29,7 @@ class ManagechildrenBloc extends Bloc<ManagechildrenEvent, ManagechildrenState> 
     else if (event is Submitted) {
       yield* _mapSubmittedToState(
         childName: event.childName,
-        childAge: event.childAge,
+        dob: event.dob,
         childGender: event.childGender,
       );
     } else if (event is GetChildren) {
@@ -36,12 +37,13 @@ class ManagechildrenBloc extends Bloc<ManagechildrenEvent, ManagechildrenState> 
     }
   }
 
-  Stream<ManagechildrenState> _mapChildNameChangedToState(String childName) async* {
+  Stream<ManagechildrenState> _mapChildNameChangedToState(
+      String childName) async* {
     yield state.update(isChildNameValid: Validators.isNameValid(childName));
   }
 
-  Stream<ManagechildrenState> _mapChildAgeChangedToState(String childAge) async* {
-    yield state.update(isChildAgeValid: Validators.isAgeValid(childAge));
+  Stream<ManagechildrenState> _mapChildAgeChangedToState(String dob) async* {
+    yield state.update(isDOBValid: Validators.isDOBValid(dob));
   }
 
   Stream<ManagechildrenState> _mapGetChildrenToState() async* {
@@ -54,12 +56,13 @@ class ManagechildrenBloc extends Bloc<ManagechildrenEvent, ManagechildrenState> 
 
   Stream<ManagechildrenState> _mapSubmittedToState({
     String childName,
-    String childAge,
+    String dob,
     String childGender,
   }) async* {
     yield ManagechildrenState.loading();
     try {
-      List<Child> childrenList = await _userRepository.addChild(name: childName, age: childAge, gender: childGender);
+      List<Child> childrenList = await _userRepository.addChild(
+          name: childName, dob: dob, gender: childGender);
       yield ManagechildrenState.success(childrenList: childrenList);
     } catch (e) {
       print(e);

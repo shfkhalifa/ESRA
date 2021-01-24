@@ -4,10 +4,12 @@ class Strings {
   static const String APP_TITLE = "ESRA";
 
   /// API
-  static const String SERVER_URL = 'http://10.0.2.2:3000/';
-  //static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
+  //static const String SERVER_URL = 'http://10.0.2.2:3000/';
+  static const String SERVER_URL = 'https://hbkuesra.herokuapp.com/';
   static const String INFERENCE_URL =
       'https://xza68yn910.execute-api.us-east-1.amazonaws.com/Prod/invocations/';
+  static const String HEATMAP_URL =
+      'http://esra-app.us-east-1.elasticbeanstalk.com/heatmap';
   static const String REMOTE = '';
   static const String REGISTER_USER_URI = 'api/user/register';
   static const String LOGIN_USER_URI = 'api/user/login';
@@ -30,7 +32,7 @@ class Strings {
   static const String EVALUATE_TITLE = "Evaluate";
   static const String FAQ_TITLE = "FAQ";
   static const String LOGOUT_TITLE = "Logout";
-  static const String RESULT_REVIEW_TITLE = "Result Review";
+  static const String RESULT_REVIEW_TITLE = "Drawing Overview";
   static const String BOTTOM_MESSAGE =
       "It's great to move around and enjoy ESRA App";
 
@@ -68,7 +70,7 @@ class Strings {
 
   /// ADD CHILD PAGE
   static const String CHILD_NAME_FORM_LABEL = "First Name";
-  static const String CHILD_AGE_FORM_LABEL = "Age (Years)";
+  static const String CHILD_DOB_FORM_LABEL = "Date of Birth";
   static const String CHILD_GENDER_LABEL = "Gender";
   static const String CHILD_BOY_LABEL = "BOY";
   static const String CHILD_GIRL_LABEL = "GIRL";

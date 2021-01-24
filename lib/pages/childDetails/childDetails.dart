@@ -28,6 +28,38 @@ class _ChildDetailsState extends State<ChildDetails> {
 
   @override
   Widget build(BuildContext context) {
+    double _getBondingMeasure() {
+      int bonded = widget.child.predictions
+          .where((e) => e.assessAvailable == 'true')
+          .length;
+      double percent = bonded / (widget.child.predictions.length);
+
+      return percent;
+    }
+
+    double _getHasStoryMeasure() {
+      int bonded =
+          widget.child.predictions.where((e) => e.hasStory == 'Yes').length;
+      double percent = bonded / (widget.child.predictions.length);
+
+      return percent;
+    }
+
+    double _getChildInPhotoMeasure() {
+      int bonded = widget.child.predictions
+          .where((e) => e.isChildInPhoto == 'Yes')
+          .length;
+      double percent = bonded / (widget.child.predictions.length);
+      return percent;
+    }
+
+    double _getFeelingSadMeasure() {
+      int bonded =
+          widget.child.predictions.where((e) => e.feeling == 'Sad').length;
+      double percent = bonded / (widget.child.predictions.length);
+      return percent;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_capitalizeName(widget.child.name)),
@@ -57,12 +89,12 @@ class _ChildDetailsState extends State<ChildDetails> {
                   ListTile(
                     leading: Image(
                       image: AssetImage(AppIcons.year),
-                      width: 24,
+                      width: 30,
                     ),
                     title: Text(
                       _capitalizeName(widget.child.name) +
                           "'s emotions over time",
-                      //style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.subhead,
                     ),
                   ),
 
@@ -140,6 +172,47 @@ class _ChildDetailsState extends State<ChildDetails> {
                   /// FAQ - Support
                   ///
                   Divider(color: AppStyles.lightBlue),
+                  if (widget.child.predictions.length > 0)
+                    ListTile(
+                        leading: Icon(Icons.assessment),
+                        title: Text(
+                          'You and ${widget.child.name} talked about her drawings ' +
+                              (_getBondingMeasure() * 100).floor().toString() +
+                              '% of the time',
+                          style: Theme.of(context).textTheme.body2,
+                        )),
+                  if (widget.child.predictions.length > 0)
+                    ListTile(
+                        leading: Icon(Icons.assessment),
+                        title: Text(
+                          '${widget.child.name} said there was a story for her drawings ' +
+                              (_getHasStoryMeasure() * 100).floor().toString() +
+                              '% of the time',
+                          style: Theme.of(context).textTheme.body2,
+                        )),
+                  if (widget.child.predictions.length > 0)
+                    ListTile(
+                        leading: Icon(Icons.assessment),
+                        title: Text(
+                          '${widget.child.name} said she was in the picture ' +
+                              (_getChildInPhotoMeasure() * 100)
+                                  .floor()
+                                  .toString() +
+                              '% of the time',
+                          style: Theme.of(context).textTheme.body2,
+                        )),
+                  if (widget.child.predictions.length > 0)
+                    ListTile(
+                        leading: Icon(Icons.assessment),
+                        title: Text(
+                          '${widget.child.name} said she felt sad while drawing ' +
+                              (_getFeelingSadMeasure() * 100)
+                                  .floor()
+                                  .toString() +
+                              '% of the time',
+                          style: Theme.of(context).textTheme.body2,
+                        )),
+
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pushNamed('/FAQ');

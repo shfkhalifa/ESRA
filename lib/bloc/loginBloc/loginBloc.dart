@@ -27,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is Submitted) {
       yield* _mapSubmittedToState(
-        email: event.email,
+        email: event.email.trim(),
         password: event.password,
       );
     }

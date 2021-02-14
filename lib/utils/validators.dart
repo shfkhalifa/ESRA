@@ -1,35 +1,41 @@
 class Validators {
   static final RegExp _emailRegExp = RegExp(
-      r'^[a-zA-Z 0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+      r'^[a-zA-Z 0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)\s*$',
       caseSensitive: false);
   // static final RegExp _passwordRegExp = RegExp(
   //   r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
   // );
-  static final RegExp _textOnlyRegExp = RegExp(r'^[a-zA-Z ]{3,}$');
+  static final RegExp _textOnlyRegExp = RegExp(r'\s*^[a-zA-Z\s+]{3,}\s*$');
   //static final RegExp _dateOfBirthRegExp = RegExp(r'^[0-9]+$');
   static final RegExp _phoneNumberRegExp = RegExp(r'^[0-9]{8}$');
 
   static final RegExp _dateOfBirthRegExp = new RegExp(
-    r"^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$",
+    r"^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$",
     caseSensitive: true,
     multiLine: false,
   );
 
 //method to calculate age on Today (in years)
-  int ageCalculate(String input) {
+  static bool _isAgeAppropriate(String input) {
+    bool isAgeAppropriate = false;
     if (_dateOfBirthRegExp.hasMatch(input)) {
       DateTime _dateTime = DateTime(
         int.parse(input.substring(6)),
         int.parse(input.substring(3, 5)),
         int.parse(input.substring(0, 2)),
       );
-      return DateTime.fromMillisecondsSinceEpoch(
+      int age = DateTime.fromMillisecondsSinceEpoch(
                   DateTime.now().difference(_dateTime).inMilliseconds)
               .year -
           1970;
-    } else {
-      return -1;
+      if (age >= 3 && age <= 16) {
+        print('child age is $age');
+        isAgeAppropriate = true;
+      } else {
+        isAgeAppropriate = false;
+      }
     }
+    return isAgeAppropriate;
   }
 
   static isValidEmail(String email) {
@@ -46,7 +52,7 @@ class Validators {
   }
 
   static isDOBValid(String dob) {
-    return _dateOfBirthRegExp.hasMatch(dob);
+    return _dateOfBirthRegExp.hasMatch(dob) && _isAgeAppropriate(dob);
   }
 
   static isPhonNumberValid(String phoneNumber) {

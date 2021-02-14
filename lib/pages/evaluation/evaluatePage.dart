@@ -41,11 +41,12 @@ class EvaluatePage extends StatefulWidget {
 }
 
 class _EvaluatePageState extends State<EvaluatePage> {
-  Child _selectedChild;
+  String _selectedChild;
   File _selectedImage;
   //File _croppedImage;
   PredictionBloc _predictionBloc;
   http.Client httpClient;
+  bool _showFloatingButton = true;
 
   @override
   void initState() {
@@ -129,7 +130,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
           backgroundColor: AppStyles.darkBlue,
           title: Text(Strings.EVALUATE_TITLE),
         ),
-        floatingActionButton: (_selectedChild != null)
+        floatingActionButton: (_selectedChild != null && _showFloatingButton)
             ? SpeedDial(
                 // child: Image(
                 //   image: AssetImage(AppIcons.analyze),
@@ -141,6 +142,9 @@ class _EvaluatePageState extends State<EvaluatePage> {
                     child: Icon(Icons.collections),
                     label: Strings.UPLOAD_BTN_LABEL,
                     onTap: () {
+                      setState(() {
+                        _showFloatingButton = false;
+                      });
                       _makePrediction(PredictionImageSource.gallery);
                     },
                   ),
@@ -148,6 +152,9 @@ class _EvaluatePageState extends State<EvaluatePage> {
                     child: Icon(Icons.camera_alt),
                     label: Strings.CAPTURE_BTN_LABEL,
                     onTap: () {
+                      setState(() {
+                        _showFloatingButton = false;
+                      });
                       _makePrediction(PredictionImageSource.camera);
                     },
                   ),
@@ -159,11 +166,11 @@ class _EvaluatePageState extends State<EvaluatePage> {
             if (state.childrenList.isEmpty) {
               return Center(child: Text(Strings.NO_CHILD_MESSAGE));
             }
-            List<DropdownMenuItem<Child>> childrenMenuItems = [];
+            List<DropdownMenuItem<String>> childrenMenuItems = [];
             List<Child> children = state.childrenList;
             children.forEach((child) {
               childrenMenuItems.add(DropdownMenuItem(
-                value: child,
+                value: child.name,
                 child: Text(child.name),
               ));
             });
@@ -192,6 +199,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                     },
                   );
                 } else if (state.isPredictionDismissed) {
+                  ;
                   return FeedbackWidget(
                     onSubmit: (String feedback) async {
                       String token = await context
@@ -199,7 +207,9 @@ class _EvaluatePageState extends State<EvaluatePage> {
                           .readToken();
                       _predictionBloc.add(SendFeedback(
                         feedbackMsg: feedback,
-                        childId: _selectedChild.id,
+                        childId: children
+                            .firstWhere((child) => child.name == _selectedChild)
+                            .id,
                         imagePath: _selectedImage.path,
                         prediction: state.prediction,
                         token: token,
@@ -215,7 +225,10 @@ class _EvaluatePageState extends State<EvaluatePage> {
                           //imagePath: _croppedImage.path,
                           imagePath: _selectedImage.path,
                           prediction: state.prediction,
-                          childId: _selectedChild.id,
+                          childId: children
+                              .firstWhere(
+                                  (child) => child.name == _selectedChild)
+                              .id,
                           assessment: record,
                           assessAvailable: (record != null) ? 'true' : 'false',
                         ),
@@ -239,13 +252,14 @@ class _EvaluatePageState extends State<EvaluatePage> {
                       SizedBox(height: 24),
                       Parent(
                         style: AppStyles.dropDownStyle,
-                        child: DropdownButtonFormField(
+                        child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(border: InputBorder.none),
+                          value: _selectedChild,
                           hint: Text(Strings.EVALUATE_SELECT_CHILD_HINT),
                           items: childrenMenuItems,
-                          onChanged: (Child value) {
+                          onChanged: (String child) {
                             setState(() {
-                              _selectedChild = value;
+                              _selectedChild = child;
                             });
                           },
                         ),

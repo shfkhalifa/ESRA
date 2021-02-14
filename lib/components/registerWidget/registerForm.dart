@@ -105,29 +105,29 @@ class _RegisterFormState extends State<RegisterForm> {
                     return !state.isEmailValid ? Strings.INVALID_EMAIL : null;
                   },
                 ),
-                SizedBox(height: 24),
+                //SizedBox(height: 24),
 
-                ///
+                /// TODO: Temporarily removing the phone number field until we decide if we want to keep or remove phone registeration
                 /// Phone Number field
                 ///
-                TextFormField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.phone),
-                    labelText: Strings.PHONE_NUMBER_LABEL,
-                    helperText: Strings.PHONE_NUMBER_HELPER,
-                    helperMaxLines: 2,
-                    prefixText: "(+974) ",
-                  ),
-                  keyboardType: TextInputType.phone,
-                  autocorrect: false,
-                  autovalidate: true,
-                  validator: (_) {
-                    return !state.isPhoneNumberValid
-                        ? Strings.INVALID_PHONE_NUMBER
-                        : null;
-                  },
-                ),
+                // TextFormField(
+                //   controller: _phoneNumberController,
+                //   decoration: InputDecoration(
+                //     icon: Icon(Icons.phone),
+                //     labelText: Strings.PHONE_NUMBER_LABEL,
+                //     helperText: Strings.PHONE_NUMBER_HELPER,
+                //     helperMaxLines: 2,
+                //     prefixText: "(+974) ",
+                //   ),
+                //   keyboardType: TextInputType.phone,
+                //   autocorrect: false,
+                //   autovalidate: true,
+                //   validator: (_) {
+                //     return !state.isPhoneNumberValid
+                //         ? Strings.INVALID_PHONE_NUMBER
+                //         : null;
+                //   },
+                // ),
                 SizedBox(height: 24),
 
                 TextFormField(

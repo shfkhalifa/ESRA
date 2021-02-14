@@ -43,33 +43,35 @@ class _AssessmentCardsWidgetState extends State<AssessmentCardsWidget> {
   @override
   Widget build(BuildContext context) {
     List answerList = [
-      customRadioButton2(['Yes', 'No'], ['Yes', 'No'],
+      customRadioButton2(
+          ['Yes', 'No'], ['Yes', 'No'], _assessmentRecord.isChildInPhoto,
           storeValue: (value) => setState(() {
                 _assessmentRecord.isChildInPhoto = value;
               })),
-      customRadioButton2(['Yes', 'No'], ['Yes', 'No'],
+      customRadioButton2(
+          ['Yes', 'No'], ['Yes', 'No'], _assessmentRecord.hasStory,
           storeValue: (value) => setState(() {
                 _assessmentRecord.hasStory = value;
               })),
-      customRadioButton2(
-          ['Happy', 'Neutral', 'Sad'], ['Happy', 'Neutral', 'Sad'],
+      customRadioButton2(['Happy', 'Neutral', 'Sad'],
+          ['Happy', 'Neutral', 'Sad'], _assessmentRecord.feeling,
           storeValue: (value) => setState(() {
                 _assessmentRecord.feeling = value;
               })),
 
       //parent choices
-      customRadioButton2(
-          ['Spontaneous', 'Instructed'], ['Yes', 'No'], //isSpontaneous
+      customRadioButton2(['Spontaneous', 'Instructed'], ['Yes', 'No'],
+          _assessmentRecord.isSpontaneous, //isSpontaneous
           storeValue: (value) => setState(() {
                 _assessmentRecord.isSpontaneous = value;
               })),
-      customRadioButton2(
-          ['In a group', 'Individual'], ['Yes', 'No'], //isInGroup
+      customRadioButton2(['In a group', 'Individual'], ['Yes', 'No'],
+          _assessmentRecord.isInGroup, //isInGroup
           storeValue: (value) => setState(() {
                 _assessmentRecord.isInGroup = value;
               })),
-      customRadioButton2(
-          ['Before School', 'After School'], ['Yes', 'No'], //isBeforeSchool
+      customRadioButton2(['Before School', 'After School'], ['Yes', 'No'],
+          _assessmentRecord.isBeforeSchool, //isBeforeSchool
           storeValue: (value) => setState(() {
                 _assessmentRecord.isBeforeSchool = value;
               })),
@@ -85,52 +87,6 @@ class _AssessmentCardsWidgetState extends State<AssessmentCardsWidget> {
             scale: i == _index ? 1 : 0.9,
             child: Column(
               children: <Widget>[
-                // new Container(
-                //   margin: const EdgeInsets.symmetric(
-                //       vertical: 4.0, horizontal: 16.0),
-                //   child: new InkWell(
-                //     child: new Card(
-                //       elevation: 6,
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(10)),
-                //       color: Colors.yellow[100],
-                //       child: new SizedBox(
-                //         height: 200.0,
-                //         child: new Column(
-                //           crossAxisAlignment: CrossAxisAlignment.stretch,
-                //           children: <Widget>[
-                //             new Container(
-                //               color: Colors.yellow[800],
-                //               alignment: Alignment.center,
-                //               padding:
-                //                   const EdgeInsets.symmetric(vertical: 5.0),
-                //               child: new Text(
-                //                 "Ask your child",
-                //                 style: new TextStyle(color: Colors.white),
-                //               ),
-                //             ),
-                //             new Expanded(
-                //               child: Column(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: <Widget>[
-                //                   Padding(
-                //                     padding: const EdgeInsets.all(5.0),
-                //                     child: Text(
-                //                       questionsList[i],
-                //                       textAlign: TextAlign.center,
-                //                       style: TextStyle(fontSize: 18),
-                //                     ),
-                //                   ),
-                //                   answerList[i],
-                //                 ],
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 new Container(
                   color: questionsList[i].type == questionType.child
                       ? Colors.cyan

@@ -52,7 +52,8 @@ class ResultReviewPage extends StatelessWidget {
                         Parent(
                           style: ParentStyle()
                             ..background.image(
-                                imageProveder: FileImage(File(hmImagePath)),
+                                imageProveder: FileImage(File(hmImagePath)) ??
+                                    FileImage(File(prediction.imagePath)),
                                 // imageProveder:
                                 //     FileImage(File(prediction.imagePath)),
                                 fit: BoxFit.contain)

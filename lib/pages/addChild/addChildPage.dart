@@ -116,7 +116,7 @@ class _AddChildPageState extends State<AddChildPage> {
                         autocorrect: false,
                         validator: (_) {
                           return !state.isChildNameValid
-                              ? 'Name should be at least 3 characters long'
+                              ? 'Name should be at least 3 characters long\nUse only letters and spaces'
                               : null;
                         },
                       ),
@@ -133,7 +133,7 @@ class _AddChildPageState extends State<AddChildPage> {
                         autocorrect: false,
                         validator: (_) {
                           return !state.isDOBValid
-                              ? 'Enter as dd/mm/yyyy'
+                              ? 'Enter as dd/mm/yyyy\nChild age must be 3 - 16 years old'
                               : null;
                         },
                       ),

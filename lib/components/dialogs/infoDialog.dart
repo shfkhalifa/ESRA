@@ -1,3 +1,4 @@
+import 'package:esra/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 
 Future<void> infoDialog(BuildContext context, String title, String body) async {

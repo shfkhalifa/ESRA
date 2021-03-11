@@ -4,6 +4,7 @@ import 'package:division/division.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:esra/utils/emoCategories.dart';
 import 'package:flutter/material.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class PredictionResultWidget extends StatelessWidget {
   final String label;
@@ -50,26 +51,26 @@ class PredictionResultWidget extends StatelessWidget {
                 child: ListTile(
                   leading: emo.getEmoIcon(label, score * 100),
                   title: Txt(
-                    emo.getEmoLabel(label, score * 100),
+                    emo.getEmoLabel(label, score * 100, context),
                     style: TxtStyle()
                       ..textColor(
                           label == "negative" ? Colors.red : Colors.green),
                   ),
-                  subtitle: Text(Strings.getLabelDetailText(label, score)),
+                  subtitle: Text(emo.getLabelDetailText(label, score, context)),
                 ),
               ),
               ButtonBar(
                 children: <Widget>[
                   FlatButton(
                     textColor: Colors.red,
-                    child: const Text(Strings.DISMISS_BTN_LABEL),
+                    child: Text(getTranslated(context, "DISMISS_BTN")),
                     onPressed: () {
                       // Dismiss the current prediction, shouldSave = false
                       onDismiss(false);
                     },
                   ),
                   FlatButton(
-                    child: const Text(Strings.SAVE_BTN_LABEL),
+                    child: Text(getTranslated(context, "SAVE_BTN")),
                     onPressed: () {
                       onDismiss(true);
                     },

@@ -1,4 +1,5 @@
 import 'package:division/division.dart';
+import 'package:esra/localization/language_constants.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,8 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                 child: ListTile(
                   title: Text(Strings.FEEDBACK_CARD_TITLE),
                   subtitle: Text(Strings.FEEDBACK_CARD_SUBTITLE),
@@ -42,14 +44,18 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
                   key: _feedbackFormKey,
                   child: TextFormField(
                     controller: _feedbackTextController,
-                    decoration: InputDecoration(hintText: "Enter your feedback...", border: OutlineInputBorder()),
+                    decoration: InputDecoration(
+                        hintText: "Enter your feedback...",
+                        border: OutlineInputBorder()),
                     keyboardType: TextInputType.multiline,
                     textInputAction: TextInputAction.done,
                     maxLines: null,
                     maxLength: 500,
                     autocorrect: true,
                     validator: (value) {
-                      return value.isEmpty ? Strings.EMPTY_FEEDBACK_ERROR : null;
+                      return value.isEmpty
+                          ? Strings.EMPTY_FEEDBACK_ERROR
+                          : null;
                     },
                   ),
                 ),
@@ -57,7 +63,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
               ButtonBar(
                 children: <Widget>[
                   FlatButton(
-                    child: Text(Strings.SUBMIT_BTN_LABEL),
+                    child: Text(getTranslated(context, "SUBMIT_BTN")),
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       if (_feedbackFormKey.currentState.validate()) {

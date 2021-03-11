@@ -1,4 +1,5 @@
 import 'package:esra/components/button.dart';
+import 'package:esra/localization/language_constants.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,13 +97,15 @@ class _RegisterFormState extends State<RegisterForm> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     icon: Icon(Icons.email),
-                    labelText: Strings.EMAIL_LABEL,
+                    labelText: getTranslated(context, "EMAIL_LABEL"),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   autovalidate: true,
                   validator: (_) {
-                    return !state.isEmailValid ? Strings.INVALID_EMAIL : null;
+                    return !state.isEmailValid
+                        ? getTranslated(context, 'INVALID_EMAIL')
+                        : null;
                   },
                 ),
                 //SizedBox(height: 24),
@@ -134,14 +137,14 @@ class _RegisterFormState extends State<RegisterForm> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     icon: Icon(Icons.lock),
-                    labelText: Strings.PASSWORD_LABEL,
+                    labelText: getTranslated(context, "PASSWORD_LABEL"),
                   ),
                   obscureText: true,
                   autocorrect: false,
                   autovalidate: true,
                   validator: (_) {
                     return !state.isPasswordValid
-                        ? Strings.INVALID_PASSWORD
+                        ? getTranslated(context, 'INVALID_PASSWORD')
                         : null;
                   },
                 ),
@@ -150,20 +153,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   controller: _rePasswordController,
                   decoration: InputDecoration(
                     icon: Icon(Icons.lock),
-                    labelText: Strings.REPASSWORD_LABEL,
+                    labelText: getTranslated(context, "REPASSWORD_LABEL"),
                   ),
                   obscureText: true,
                   autocorrect: false,
                   autovalidate: true,
                   validator: (_) {
                     return !state.isRePasswordValid
-                        ? Strings.INVALID_REPASSWORD
+                        ? getTranslated(context, 'INVALID_REPASSWORD')
                         : null;
                   },
                 ),
                 SizedBox(height: 48),
                 RoundButton(
-                  label: Strings.REGISTER_BTN_TEXT,
+                  label: getTranslated(context, "REGISTER_BTN_TEXT"),
                   onPressed:
                       isRegisterButtonEnabled(state) ? _onFormSubmitted : null,
                 ),

@@ -10,6 +10,7 @@ import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class ChildrenPage extends StatelessWidget {
   const ChildrenPage({Key key}) : super(key: key);
@@ -19,7 +20,7 @@ class ChildrenPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppStyles.darkBlue,
-          title: Text(Strings.CHILDREN_LIST_PAGE_TITLE),
+          title: Text(getTranslated(context, "CHILDREN_LIST_PAGE_TITLE")),
           actions: [
             IconButton(
               icon: Icon(Icons.add),
@@ -89,7 +90,8 @@ class ChildrenPage extends StatelessWidget {
                 ),
               );
             }
-            return Center(child: Text(Strings.NO_CHILD_MESSAGE));
+            return Center(
+                child: Text(getTranslated(context, "NO_CHILD_MESSAGE")));
           },
         ));
   }

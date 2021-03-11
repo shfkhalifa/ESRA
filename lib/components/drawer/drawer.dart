@@ -5,7 +5,8 @@ import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:esra/localization/language_constants.dart';
 
 Widget appDrawer(BuildContext context, double appBarHeight) {
   double topMargin = appBarHeight + MediaQuery.of(context).padding.top;
@@ -24,7 +25,7 @@ Widget appDrawer(BuildContext context, double appBarHeight) {
                       image: AssetImage(AppIcons.child),
                       width: 24,
                     ),
-                    title: Text(Strings.CHILDREN_TITLE),
+                    title: Text(getTranslated(context, "CHILDREN_TITLE")),
                     trailing: Txt(
                       state.childrenList.length.toString(),
                       style: AppStyles.badgeStyle,
@@ -42,7 +43,7 @@ Widget appDrawer(BuildContext context, double appBarHeight) {
                   image: AssetImage(AppIcons.analyze),
                   width: 24,
                 ),
-                title: Text(Strings.EVALUATE_TITLE),
+                title: Text(getTranslated(context, 'EVALUATE_TITLE')),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed('/evaluate');
@@ -54,7 +55,7 @@ Widget appDrawer(BuildContext context, double appBarHeight) {
                   image: AssetImage(AppIcons.faq),
                   width: 24,
                 ),
-                title: Text(Strings.FAQ_TITLE),
+                title: Text(getTranslated(context, "FAQ_TITLE")),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed('/FAQ');
@@ -63,10 +64,22 @@ Widget appDrawer(BuildContext context, double appBarHeight) {
               Divider(color: AppStyles.lightBlue),
               ListTile(
                 leading: Image(
+                  image: AssetImage(AppIcons.faq),
+                  width: 24,
+                ),
+                title: Text(getTranslated(context, "SETTINGS")),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/settings');
+                },
+              ),
+              Divider(color: AppStyles.lightBlue),
+              ListTile(
+                leading: Image(
                   image: AssetImage(AppIcons.logOut),
                   width: 24,
                 ),
-                title: Text(Strings.LOGOUT_TITLE),
+                title: Text(getTranslated(context, 'LOGOUT_TITLE')),
                 onTap: () {
                   Navigator.pop(context); // remove the drawer
                   BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());

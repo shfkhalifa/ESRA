@@ -30,6 +30,7 @@ import '../../repositories/userRepository.dart';
 import '../../styles.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:esra/localization/language_constants.dart';
 
 enum PredictionImageSource { camera, gallery }
 
@@ -118,8 +119,10 @@ class _EvaluatePageState extends State<EvaluatePage> {
               BlocProvider.of<ManagechildrenBloc>(context).add(GetChildren());
               await infoDialog(
                 context,
-                Strings.PREDICTION_SAVED_CONFIRMATION_DIALOG_TITLE,
-                Strings.PREDICTION_SAVED_CONFIRMATION_DIALOG_BODY,
+                getTranslated(
+                    context, "PREDICTION_SAVED_CONFIRMATION_DIALOG_TITLE"),
+                getTranslated(
+                    context, "PREDICTION_SAVED_CONFIRMATION_DIALOG_SUBTITLE"),
               );
             }
           },
@@ -128,7 +131,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppStyles.darkBlue,
-          title: Text(Strings.EVALUATE_TITLE),
+          title: Text(getTranslated(context, 'EVALUATE_TITLE')),
         ),
         floatingActionButton: (_selectedChild != null && _showFloatingButton)
             ? SpeedDial(
@@ -140,7 +143,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                 children: [
                   SpeedDialChild(
                     child: Icon(Icons.collections),
-                    label: Strings.UPLOAD_BTN_LABEL,
+                    label: getTranslated(context, "UPLOAD_BTN_LABEL"),
                     onTap: () {
                       setState(() {
                         _showFloatingButton = false;
@@ -150,7 +153,7 @@ class _EvaluatePageState extends State<EvaluatePage> {
                   ),
                   SpeedDialChild(
                     child: Icon(Icons.camera_alt),
-                    label: Strings.CAPTURE_BTN_LABEL,
+                    label: getTranslated(context, "CAPTURE_BTN_LABEL"),
                     onTap: () {
                       setState(() {
                         _showFloatingButton = false;
@@ -164,7 +167,8 @@ class _EvaluatePageState extends State<EvaluatePage> {
         body: BlocBuilder<ManagechildrenBloc, ManagechildrenState>(
           builder: (context, state) {
             if (state.childrenList.isEmpty) {
-              return Center(child: Text(Strings.NO_CHILD_MESSAGE));
+              return Center(
+                  child: Text(getTranslated(context, "NO_CHILD_MESSAGE")));
             }
             List<DropdownMenuItem<String>> childrenMenuItems = [];
             List<Child> children = state.childrenList;
@@ -255,7 +259,8 @@ class _EvaluatePageState extends State<EvaluatePage> {
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(border: InputBorder.none),
                           value: _selectedChild,
-                          hint: Text(Strings.EVALUATE_SELECT_CHILD_HINT),
+                          hint: Text(getTranslated(
+                              context, "EVALUATE_SELECT_CHILD_HINT")),
                           items: childrenMenuItems,
                           onChanged: (String child) {
                             setState(() {

@@ -1,4 +1,5 @@
 import 'package:esra/components/assessmentWidget/customRadioButton.dart';
+import 'package:esra/localization/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:esra/models/assessment.dart';
 
@@ -24,54 +25,80 @@ class _AssessmentCardsWidgetState extends State<AssessmentCardsWidget> {
   AssessmentRecord _assessmentRecord = new AssessmentRecord();
   int _index = 0;
 
-  List<AssessmentQuestion> questionsList = [
-    // child questions
-    new AssessmentQuestion('Are you in this drawing?', questionType.child),
-    new AssessmentQuestion(
-        'Is there a story to the picture?', questionType.child),
-    new AssessmentQuestion(
-        'How were you feeling while drawing the picture?', questionType.child),
-    // Parent questions
-    new AssessmentQuestion('Was the image drawn as Instructed or spontaneously',
-        questionType.parent),
-    new AssessmentQuestion(
-        'Was the image drawn in a group or individually', questionType.parent),
-    new AssessmentQuestion(
-        'Was the image drawn: Before School/After School', questionType.parent),
-  ];
+  List<AssessmentQuestion> questionsList;
 
   @override
   Widget build(BuildContext context) {
+    String yesStr = getTranslated(context, "YES");
+    String noStr = getTranslated(context, "NO");
+    final questionsList = [
+      // child questions
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_IN_DRAWING'), questionType.child),
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_STORY'), questionType.child),
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_FEELING'), questionType.child),
+      // Parent questions
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_INSTRUCTED'), questionType.parent),
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_IN_GROUP'), questionType.parent),
+      new AssessmentQuestion(
+          getTranslated(context, 'Q_BEFORE_SCHOOL'), questionType.parent),
+    ];
     List answerList = [
       customRadioButton2(
-          ['Yes', 'No'], ['Yes', 'No'], _assessmentRecord.isChildInPhoto,
+          [yesStr, noStr], [yesStr, noStr], _assessmentRecord.isChildInPhoto,
           storeValue: (value) => setState(() {
                 _assessmentRecord.isChildInPhoto = value;
               })),
       customRadioButton2(
-          ['Yes', 'No'], ['Yes', 'No'], _assessmentRecord.hasStory,
+          [yesStr, noStr], [yesStr, noStr], _assessmentRecord.hasStory,
           storeValue: (value) => setState(() {
                 _assessmentRecord.hasStory = value;
               })),
-      customRadioButton2(['Happy', 'Neutral', 'Sad'],
-          ['Happy', 'Neutral', 'Sad'], _assessmentRecord.feeling,
+      customRadioButton2([
+        getTranslated(context, "HAPPY"),
+        getTranslated(context, "NEUTRAL"),
+        getTranslated(context, "SAD")
+      ], [
+        'Happy',
+        'Neutral',
+        'Sad'
+      ], _assessmentRecord.feeling,
           storeValue: (value) => setState(() {
                 _assessmentRecord.feeling = value;
               })),
 
       //parent choices
-      customRadioButton2(['Spontaneous', 'Instructed'], ['Yes', 'No'],
-          _assessmentRecord.isSpontaneous, //isSpontaneous
+      customRadioButton2([
+        getTranslated(context, "SPONTANEOUS"),
+        getTranslated(context, "INSTRUCTED")
+      ], [
+        'Yes',
+        'No'
+      ], _assessmentRecord.isSpontaneous, //isSpontaneous
           storeValue: (value) => setState(() {
                 _assessmentRecord.isSpontaneous = value;
               })),
-      customRadioButton2(['In a group', 'Individual'], ['Yes', 'No'],
-          _assessmentRecord.isInGroup, //isInGroup
+      customRadioButton2([
+        getTranslated(context, "IN_GROUP"),
+        getTranslated(context, "INDIVIDUAL")
+      ], [
+        'Yes',
+        'No'
+      ], _assessmentRecord.isInGroup, //isInGroup
           storeValue: (value) => setState(() {
                 _assessmentRecord.isInGroup = value;
               })),
-      customRadioButton2(['Before School', 'After School'], ['Yes', 'No'],
-          _assessmentRecord.isBeforeSchool, //isBeforeSchool
+      customRadioButton2([
+        getTranslated(context, 'BEFORE_SCHOOL'),
+        getTranslated(context, 'AFTER_SCHOOL')
+      ], [
+        'Yes',
+        'No'
+      ], _assessmentRecord.isBeforeSchool, //isBeforeSchool
           storeValue: (value) => setState(() {
                 _assessmentRecord.isBeforeSchool = value;
               })),
@@ -95,8 +122,8 @@ class _AssessmentCardsWidgetState extends State<AssessmentCardsWidget> {
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: Text(
                     questionsList[i].type == questionType.child
-                        ? "Ask your child"
-                        : 'Ask yourself',
+                        ? getTranslated(context, "ASK_YOUR_CHILD")
+                        : getTranslated(context, "ASK_YOURSELF"),
                     style: new TextStyle(color: Colors.white),
                   ),
                 ),
@@ -128,7 +155,7 @@ class _AssessmentCardsWidgetState extends State<AssessmentCardsWidget> {
                     child: FlatButton(
                       color: Colors.blue,
                       textColor: Colors.white,
-                      child: Text('Submit'),
+                      child: Text(getTranslated(context, 'SUBMIT_BTN')),
                       onPressed: () {
                         widget.onSubmitted(_assessmentRecord);
                       },

@@ -23,7 +23,7 @@ class _ChildDetailsState extends State<ChildDetails> {
   @override
   void initState() {
     super.initState();
-    _selections = [true, false, false];
+    _selections = [false, false, true];
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:esra/components/button.dart';
 import 'package:esra/components/toggleButton/toggleButton.dart';
 import 'package:esra/repositories/userRepository.dart';
 import 'package:esra/utils/constants.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class AddChildPage extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _AddChildPageState extends State<AddChildPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.ADD_CHILD_BTN_LABEL),
+        title: Text(getTranslated(context, 'ADD_CHILD_BTN_LABEL')),
       ),
       body: BlocListener<ManagechildrenBloc, ManagechildrenState>(
         listener: (context, state) async {
@@ -85,7 +86,7 @@ class _AddChildPageState extends State<AddChildPage> {
                   children: <Widget>[
                     CircularProgressIndicator(),
                     SizedBox(height: 24),
-                    Text(Strings.LOADING_MSG),
+                    Text(getTranslated(context, "LOADING_MSG")),
                   ],
                 ),
               );
@@ -108,7 +109,8 @@ class _AddChildPageState extends State<AddChildPage> {
                         controller: _childNameController,
                         decoration: InputDecoration(
                           prefixIcon: Image(image: AssetImage(AppIcons.name)),
-                          labelText: Strings.CHILD_NAME_FORM_LABEL,
+                          labelText:
+                              getTranslated(context, "CHILD_NAME_FORM_LABEL"),
                           labelStyle: TextStyle(color: AppStyles.darkBlue),
                         ),
                         keyboardType: TextInputType.text,
@@ -116,7 +118,7 @@ class _AddChildPageState extends State<AddChildPage> {
                         autocorrect: false,
                         validator: (_) {
                           return !state.isChildNameValid
-                              ? 'Name should be at least 3 characters long\nUse only letters and spaces'
+                              ? getTranslated(context, "NAME_VALIDATION_TIP")
                               : null;
                         },
                       ),
@@ -125,7 +127,8 @@ class _AddChildPageState extends State<AddChildPage> {
                         controller: _childAgeController,
                         decoration: InputDecoration(
                           prefixIcon: Image(image: AssetImage(AppIcons.year)),
-                          labelText: Strings.CHILD_DOB_FORM_LABEL,
+                          labelText:
+                              getTranslated(context, 'CHILD_DOB_FORM_LABEL'),
                           labelStyle: TextStyle(color: AppStyles.darkBlue),
                         ),
                         keyboardType: TextInputType.text,
@@ -140,8 +143,8 @@ class _AddChildPageState extends State<AddChildPage> {
                       SizedBox(height: 24),
                       ToggleButton(
                         items: [
-                          Strings.CHILD_BOY_LABEL,
-                          Strings.CHILD_GIRL_LABEL
+                          getTranslated(context, 'CHILD_BOY_LABEL'),
+                          getTranslated(context, 'CHILD_GIRL_LABEL')
                         ],
                         onItemSelected: (value) {
                           setState(() {
@@ -151,7 +154,7 @@ class _AddChildPageState extends State<AddChildPage> {
                       ),
                       SizedBox(height: 48),
                       RoundButton(
-                        label: Strings.SAVE_BTN_LABEL,
+                        label: getTranslated(context, "SAVE_BTN"),
                         onPressed: isAddChildButtonValid(state)
                             ? _onFormSubmitted
                             : null,

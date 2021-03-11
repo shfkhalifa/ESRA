@@ -1,3 +1,5 @@
+import 'package:esra/pages/settings/settings_page.dart';
+
 ///
 /// By Younss Ait Mou
 ///
@@ -22,6 +24,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EvaluatePage());
       case '/FAQ':
         return MaterialPageRoute(builder: (_) => FAQPage());
+      case '/settings':
+        return MaterialPageRoute(builder: (_) => SettingsPage());
       case '/FAQDetails':
         final faq = settings.arguments;
         return MaterialPageRoute(

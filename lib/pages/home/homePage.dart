@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/manageChildrenBloc/mangeChildren.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class HomePage extends StatelessWidget {
   AppBar appBar = AppBar(
@@ -61,8 +62,8 @@ class HomePage extends StatelessWidget {
                       contentPadding: EdgeInsets.all(0),
                       leading: EmoCategories()
                           .getEmoIcon(cPrediction.label, cPrediction.score),
-                      title: Text(EmoCategories()
-                          .getEmoLabel(cPrediction.label, cPrediction.score)),
+                      title: Text(EmoCategories().getEmoLabel(
+                          cPrediction.label, cPrediction.score, context)),
                       subtitle: Text(cPrediction.score.toString() + "%"),
                       //trailing: Icon(Icons.chevron_right),
                       trailing: image != null
@@ -100,7 +101,7 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      Strings.WELCOME_MSG,
+                      getTranslated(context, 'WELCOME_MSG'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppStyles.darkBlue,
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                       image: AssetImage(AppIllustrations.faq_1),
                     ),
                     RoundButton(
-                      label: Strings.EVALUATE_DRAWING_BTN,
+                      label: getTranslated(context, 'EVALUATE_DRAWING_BTN'),
                       onPressed: () {
                         Navigator.of(context).pushNamed("/evaluate");
                       },
@@ -139,12 +140,12 @@ class HomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          Strings.HOME_NO_CHILDREN_MESSAGE,
+                          getTranslated(context, 'HOME_NO_CHILDREN_MESSAGE'),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 24),
                         RoundButton(
-                          label: Strings.ADD_CHILD_BTN_LABEL,
+                          label: getTranslated(context, 'ADD_CHILD_BTN_LABEL'),
                           onPressed: () {
                             Navigator.of(context).pushNamed("/addChild");
                           },

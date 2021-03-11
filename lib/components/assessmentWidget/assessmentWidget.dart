@@ -1,9 +1,9 @@
 import 'package:division/division.dart';
 import 'package:esra/components/assessmentWidget/customRadioButton.dart';
 import 'package:esra/models/assessment.dart';
-import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:esra/components/assessmentWidget/assessCardsWidget.dart';
+import 'package:esra/localization/language_constants.dart';
 
 enum assessChoice { yes, no }
 
@@ -43,16 +43,22 @@ class _AssessmentWidgetState extends State<AssessmentWidget> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 8),
                     child: ListTile(
-                      title: Text(Strings.ASSESSMENT_CARD_TITLE),
-                      subtitle: Text(Strings.ASSESSMENT_CARD_SUBTITLE),
+                      title:
+                          Text(getTranslated(context, "ASSESSMENT_CARD_TITLE")),
+                      subtitle: Text(
+                          getTranslated(context, "ASSESSMENT_CARD_SUBTITLE")),
                     ),
                   ),
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 100, bottom: 30, top: 20),
-                    child: customRadioButton(
-                        ['Yes', 'No'], [assessChoice.yes, assessChoice.no],
-                        storeValue: (value) {
+                    child: customRadioButton([
+                      getTranslated(context, "YES"),
+                      getTranslated(context, "NO")
+                    ], [
+                      assessChoice.yes,
+                      assessChoice.no
+                    ], storeValue: (value) {
                       setState(() {
                         _assessChoice = value;
                       });
@@ -70,7 +76,7 @@ class _AssessmentWidgetState extends State<AssessmentWidget> {
                 child: FlatButton(
                   color: Colors.blue,
                   textColor: Colors.white,
-                  child: Text('Submit'),
+                  child: Text(getTranslated(context, "SUBMIT_BTN")),
                   onPressed: () {
                     widget.onSubmitted();
                   },

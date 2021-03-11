@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
+import "package:esra/localization/language_constants.dart";
 
 class EmoCategories {
   Icon getEmoIcon(String label, double score) {
@@ -49,23 +50,34 @@ class EmoCategories {
     return emoIcon;
   }
 
-  String getEmoLabel(String label, double score) {
+  String getEmoLabel(String label, double score, BuildContext context) {
     String emoLabel = "Undefined";
     if (label == "negative") {
       if (score > 90) //Highly negative
-        emoLabel = Strings.HIGHLY_NEGATIVE_LABEL;
+        emoLabel = getTranslated(context, "HIGHLY_NEGATIVE_LABEL");
       else if (score > 70) //negative
-        emoLabel = Strings.NEGATIVE_LABEL;
+        emoLabel = getTranslated(context, 'NEGATIVE_LABEL');
       else if (score > 50) // slightly negative
-        emoLabel = Strings.SLIGHTLY_NEGATIVE_LABEL;
+        emoLabel = getTranslated(context, 'SLIGHTLY_NEGATIVE_LABEL');
     } else if (label == "positive") {
       if (score > 90) //Highly negative
-        emoLabel = Strings.HIGHLY_POSITIVE_LABEL;
+        emoLabel = getTranslated(context, 'HIGHLY_POSITIVE_LABEL');
       else if (score > 70) //negative
-        emoLabel = Strings.POSITIVE_LABEL;
+        emoLabel = getTranslated(context, 'POSITIVE_LABEL');
       else if (score > 50) // slightly negative
-        emoLabel = Strings.SLIGHTLY_POSITIVE_LABEL;
+        emoLabel = getTranslated(context, 'SLIGHTLY_POSITIVE_LABEL');
     }
     return emoLabel;
+  }
+
+  String getLabelDetailText(String label, double score, BuildContext context) {
+    print('\n LABEL received is: $label');
+    String stringLabel = label.contains('positive')
+        ? getTranslated(context, 'POSITIVE_LABEL')
+        : getTranslated(context, 'NEGATIVE_LABEL');
+    return getTranslated(context, 'RESULT_TEXT1') +
+        ' ${stringLabel.toLowerCase()}' +
+        getTranslated(context, 'RESULT_TEXT2') +
+        '${(score * 100).round()}%';
   }
 }

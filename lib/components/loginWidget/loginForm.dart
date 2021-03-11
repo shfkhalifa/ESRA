@@ -2,8 +2,9 @@ import 'package:esra/components/button.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:esra/bloc/authenticationBloc/authentication.dart';
+//import 'package:esra/bloc/authenticationBloc/authentication.dart';
 import 'package:esra/bloc/loginBloc/login.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class LoginForm extends StatefulWidget {
   State<LoginForm> createState() => _LoginFormState();
@@ -15,7 +16,8 @@ class _LoginFormState extends State<LoginForm> {
 
   LoginBloc _loginBloc;
 
-  bool get isPopulated => _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+  bool get isPopulated =>
+      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
   bool isLoginButtonEnabled(LoginState state) {
     return state.isFormValid && isPopulated && !state.isSubmitting;
@@ -76,13 +78,15 @@ class _LoginFormState extends State<LoginForm> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     icon: Icon(Icons.email),
-                    labelText: Strings.EMAIL_LABEL,
+                    labelText: getTranslated(context, "EMAIL_LABEL"),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   autovalidate: true,
                   autocorrect: false,
                   validator: (_) {
-                    return !state.isEmailValid ? Strings.INVALID_EMAIL : null;
+                    return !state.isEmailValid
+                        ? getTranslated(context, 'INVALID_EMAIL')
+                        : null;
                   },
                 ),
                 SizedBox(height: 24),
@@ -101,8 +105,9 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 SizedBox(height: 48),
                 RoundButton(
-                  label: Strings.LOGIN_BTN_TEXT,
-                  onPressed: isLoginButtonEnabled(state) ? _onFormSubmitted : null,
+                  label: getTranslated(context, "LOGIN_BTN_TEXT"),
+                  onPressed:
+                      isLoginButtonEnabled(state) ? _onFormSubmitted : null,
                 ),
               ],
             ),

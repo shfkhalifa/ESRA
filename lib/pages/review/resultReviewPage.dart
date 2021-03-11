@@ -7,6 +7,7 @@ import 'package:esra/models/prediction.dart';
 import 'package:esra/styles.dart';
 import 'package:esra/utils/emoCategories.dart';
 import 'package:path/path.dart' as path;
+import 'package:esra/localization/language_constants.dart';
 
 class ResultReviewPage extends StatelessWidget {
   final Prediction prediction;
@@ -37,7 +38,7 @@ class ResultReviewPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppStyles.darkBlue,
-          title: Text(Strings.RESULT_REVIEW_TITLE),
+          title: Text(getTranslated(context, 'RESULT_REVIEW_TITLE')),
         ),
         body: SingleChildScrollView(
           child: Parent(
@@ -67,14 +68,16 @@ class ResultReviewPage extends StatelessWidget {
                               .getEmoIcon(prediction.label, prediction.score),
                           title: Txt(
                             EmoCategories().getEmoLabel(
-                                prediction.label, prediction.score),
+                                prediction.label, prediction.score, context),
                             style: TxtStyle()
                               ..textColor(prediction.label == "negative"
                                   ? Colors.red
                                   : Colors.green),
                           ),
-                          subtitle: Text(Strings.getLabelDetailText(
-                              prediction.label, (prediction.score) / 100)),
+                          subtitle: Text(
+                            EmoCategories().getLabelDetailText(prediction.label,
+                                (prediction.score) / 100, context),
+                          ),
                         ),
                       ),
                     ],
@@ -84,28 +87,29 @@ class ResultReviewPage extends StatelessWidget {
                   textCard(
                       Icons.face,
                       Colors.cyan,
-                      'Your child was feeling ' +
-                          prediction.feeling.toLowerCase()),
+                      getTranslated(context, "CHILD_WAS_FEELING") +
+                          getTranslated(
+                              context, prediction.feeling.toUpperCase())),
                 if (prediction.hasStory == 'Yes')
                   textCard(Icons.local_library, Colors.cyan,
-                      'Your child said this drawing had a story'),
+                      getTranslated(context, "DRAWING_HAD_STORY")),
                 if (prediction.isChildInPhoto == 'Yes')
                   textCard(Icons.child_care, Colors.cyan,
-                      'Your child drew himself/herself in this photo'),
+                      getTranslated(context, "DREW_HIMSELF")),
                 if (prediction.isSpontaneous != null)
                   textCard(
                       Icons.speaker_notes,
                       Colors.blueGrey,
                       prediction.isSpontaneous == 'Yes'
-                          ? 'This was a spontaneous drawing'
-                          : 'This was an instructed drawing'),
+                          ? getTranslated(context, "WAS_SPONTANEOUS_DRAWING")
+                          : getTranslated(context, "WAS_INSTRUCTED_DRAWING")),
                 if (prediction.isBeforeSchool != null)
                   textCard(
                       Icons.speaker_notes,
                       Colors.blueGrey,
                       prediction.isBeforeSchool == 'Yes'
-                          ? 'This was drawn before school'
-                          : 'This was drawn after school'),
+                          ? getTranslated(context, "WAS_BEFORE_SCHOOL")
+                          : getTranslated(context, "WAS_AFTER_SCHOOL")),
                 if (prediction.isInGroup != null)
                   textCard(
                       Icons.speaker_notes,

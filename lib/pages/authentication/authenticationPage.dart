@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:division/division.dart';
 
 import 'package:esra/components/loginWidget/loginWidget.dart';
-import 'package:esra/utils/constants.dart';
+//import 'package:esra/utils/constants.dart';
+import 'package:esra/localization/language_constants.dart';
 
 import '../../styles.dart';
 
@@ -36,7 +37,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ToggleButton(
-                items: [Strings.LOGIN_BTN_TEXT, Strings.REGISTER_BTN_TEXT],
+                items: [
+                  getTranslated(context, "LOGIN_BTN_TEXT"),
+                  getTranslated(context, "REGISTER_BTN_TEXT")
+                ],
                 onItemSelected: (selectedIndex) {
                   setState(() {
                     _selectedTab = selectedIndex;

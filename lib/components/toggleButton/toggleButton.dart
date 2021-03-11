@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class ToggleButton extends StatefulWidget {
   final Function(int selectedTab) onItemSelected;
   final List<String> items;
-  ToggleButton({Key key, @required this.onItemSelected, @required this.items}) : super(key: key);
+  ToggleButton({Key key, @required this.onItemSelected, @required this.items})
+      : super(key: key);
 
   @override
   _TobbleButtonState createState() => _TobbleButtonState();

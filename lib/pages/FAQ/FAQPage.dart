@@ -10,6 +10,7 @@ import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class FAQPage extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class FAQPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppStyles.darkBlue,
-        title: Text(Strings.FAQ_TITLE),
+        title: Text(getTranslated(context, "FAQ_TITLE")),
       ),
       body: BlocBuilder<FaqBloc, FaqState>(
         builder: (context, state) {

@@ -3,6 +3,7 @@ import 'package:esra/models/faq.dart';
 import 'package:esra/styles.dart';
 import 'package:esra/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:esra/localization/language_constants.dart';
 
 class FAQDetails extends StatelessWidget {
   final Faq faq;
@@ -13,7 +14,7 @@ class FAQDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppStyles.darkBlue,
-        title: Text(Strings.FAQ_TITLE),
+        title: Text(getTranslated(context, "FAQ_TITLE")),
       ),
       body: Parent(
         // style: ParentStyle()..width(MediaQuery.of(context).size.width),
@@ -23,14 +24,16 @@ class FAQDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
               child: Image(
                 image: AssetImage(AppIcons.info),
               ),
             ),
             SingleChildScrollView(
               child: Parent(
-                style: ParentStyle()..width(MediaQuery.of(context).size.width * 0.7),
+                style: ParentStyle()
+                  ..width(MediaQuery.of(context).size.width * 0.7),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

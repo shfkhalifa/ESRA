@@ -23,7 +23,9 @@ class ChildChart extends StatefulWidget {
 class _ChildChartState extends State<ChildChart> {
   List<Prediction> get _predictionData => widget.data;
   int get _period => widget.period;
-  List<BarChartGroupData> _chartGpData = [];
+  //List<BarChartGroupData> _chartGpData = [];
+  List<LineChartBarData> _chartGpData = [];
+
   // chart vars
   final Duration animDuration = const Duration(milliseconds: 250);
 
@@ -40,20 +42,39 @@ class _ChildChartState extends State<ChildChart> {
         ..width(MediaQuery.of(context).size.width * .8)
         ..height(250)
         ..padding(vertical: 24, horizontal: 0),
-      child: BarChart(
-        BarChartData(
+      // child: BarChart(
+      //   BarChartData(
+      //     maxY: 100,
+      //     borderData: FlBorderData(show: false),
+      //     axisTitleData: FlAxisTitleData(show: false),
+      //     titlesData: _generateTitleData(),
+      //     barGroups: _generateCharBars(),
+      //   ),
+      //   swapAnimationDuration: animDuration,
+      // ),
+      child: LineChart(
+        LineChartData(
+          lineTouchData: LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+              tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+            ),
+            touchCallback: (LineTouchResponse touchResponse) {},
+            handleBuiltInTouches: true,
+          ),
           maxY: 100,
+          gridData: FlGridData(
+            show: false,
+          ),
           borderData: FlBorderData(show: false),
           axisTitleData: FlAxisTitleData(show: false),
           titlesData: _generateTitleData(),
-          barGroups: _generateCharBars(),
+          lineBarsData: _generateCharBars(),
         ),
-        swapAnimationDuration: animDuration,
       ),
     );
   }
 
-  List<BarChartGroupData> _generateCharBars() {
+  List<LineChartBarData> _generateCharBars() {
     switch (_period) {
 
       ///
@@ -102,25 +123,37 @@ class _ChildChartState extends State<ChildChart> {
           "Sunday"
         ];
         _chartGpData.clear();
+        List<FlSpot> points = new List<FlSpot>();
+        List<Color> colors = new List<Color>();
         for (int i = 0; i < 7; i++) {
-          _chartGpData.add(BarChartGroupData(x: i, barRods: [
-            BarChartRodData(
-              y: weeklyData.containsKey(daysLabelList[i])
-                  ? weeklyData[daysLabelList[i]]
-                  : 0.0,
-              width: 18,
-              color: (weeklyData.containsKey(daysLabelList[i]) &&
-                      weeklyData[daysLabelList[i]] <= 50.0)
-                  ? Colors.red
-                  : Colors.green,
-              backDrawRodData: BackgroundBarChartRodData(
-                show: true,
-                y: 100,
-                color: Colors.black12,
-              ),
-            ),
-          ]));
+          points.add(FlSpot(
+            i.toDouble(),
+            weeklyData.containsKey(daysLabelList[i])
+                ? weeklyData[daysLabelList[i]]
+                : 0.0,
+          ));
+
+          print('string value of $i ${weeklyData[daysLabelList[i]]}\n');
+          (weeklyData.containsKey(daysLabelList[i]) &&
+                  weeklyData[daysLabelList[i]] <= 50.0)
+              ? colors.add(Colors.blue)
+              : colors.add(Colors.red);
         }
+
+        _chartGpData.add(LineChartBarData(
+          spots: points,
+          isCurved: true,
+          colors: colors,
+          barWidth: 4,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: true,
+          ),
+          belowBarData: BarAreaData(
+            show: false,
+          ),
+        ));
+
         return _chartGpData;
         break;
 
@@ -157,25 +190,25 @@ class _ChildChartState extends State<ChildChart> {
 
         _chartGpData.clear();
 
-        for (int i = 0; i < 12; i++) {
-          _chartGpData.add(BarChartGroupData(x: i, barRods: [
-            BarChartRodData(
-              y: monthlyData.containsKey(i.toString())
-                  ? monthlyData[i.toString()]
-                  : 0.0,
-              width: 14,
-              color: (monthlyData.containsKey(i.toString()) &&
-                      monthlyData[i.toString()] <= 50.0)
-                  ? Colors.red
-                  : Colors.green,
-              backDrawRodData: BackgroundBarChartRodData(
-                show: true,
-                y: 100,
-                color: Colors.black12,
-              ),
-            ),
-          ]));
-        }
+        // for (int i = 0; i < 12; i++) {
+        //   _chartGpData.add(BarChartGroupData(x: i, barRods: [
+        //     BarChartRodData(
+        //       y: monthlyData.containsKey(i.toString())
+        //           ? monthlyData[i.toString()]
+        //           : 0.0,
+        //       width: 14,
+        //       color: (monthlyData.containsKey(i.toString()) &&
+        //               monthlyData[i.toString()] <= 50.0)
+        //           ? Colors.red
+        //           : Colors.green,
+        //       backDrawRodData: BackgroundBarChartRodData(
+        //         show: true,
+        //         y: 100,
+        //         color: Colors.black12,
+        //       ),
+        //     ),
+        //   ]));
+        // }
         return _chartGpData;
         break;
 
@@ -202,25 +235,25 @@ class _ChildChartState extends State<ChildChart> {
           }
         }
         _chartGpData.clear();
-        for (int i = 2020; i < 2027; i++) {
-          _chartGpData.add(BarChartGroupData(x: i, barRods: [
-            BarChartRodData(
-              y: yearlyData.containsKey(i.toString())
-                  ? yearlyData[i.toString()]
-                  : 0.0,
-              width: 18,
-              color: (yearlyData.containsKey(i.toString()) &&
-                      yearlyData[i.toString()] <= 50.0)
-                  ? Colors.red
-                  : Colors.green,
-              backDrawRodData: BackgroundBarChartRodData(
-                show: true,
-                y: 100,
-                color: Colors.black12,
-              ),
-            ),
-          ]));
-        }
+        // for (int i = 2020; i < 2027; i++) {
+        //   _chartGpData.add(BarChartGroupData(x: i, barRods: [
+        //     BarChartRodData(
+        //       y: yearlyData.containsKey(i.toString())
+        //           ? yearlyData[i.toString()]
+        //           : 0.0,
+        //       width: 18,
+        //       color: (yearlyData.containsKey(i.toString()) &&
+        //               yearlyData[i.toString()] <= 50.0)
+        //           ? Colors.red
+        //           : Colors.green,
+        //       backDrawRodData: BackgroundBarChartRodData(
+        //         show: true,
+        //         y: 100,
+        //         color: Colors.black12,
+        //       ),
+        //     ),
+        //   ]));
+        // }
         return _chartGpData;
         break;
       default:
@@ -231,9 +264,26 @@ class _ChildChartState extends State<ChildChart> {
     switch (_period) {
       case 0:
         return FlTitlesData(
-          leftTitles: SideTitles(showTitles: false),
+          leftTitles: SideTitles(
+            showTitles: true,
+            textStyle: TextStyle(
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+            getTitles: (value) {
+              var label = '';
+              (value == 100)
+                  ? label = 'Positive'
+                  : (value == 0) ? label = 'Negative' : label = '';
+              return label;
+            },
+            margin: 10,
+            reservedSize: 30,
+          ),
           bottomTitles: SideTitles(
             showTitles: true,
+            margin: 40,
             getTitles: (double value) {
               switch (value.toInt()) {
                 case 0:

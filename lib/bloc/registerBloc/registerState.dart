@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 @immutable
 class RegisterState {
   final bool isEmailValid;
-  final bool isPhoneNumberValid;
+  //final bool isPhoneNumberValid;
   final bool isPasswordValid;
   final bool isRePasswordValid;
   final bool isSubmitting;
@@ -12,11 +12,12 @@ class RegisterState {
   final bool isFailure;
   final String errorMsg;
 
-  bool get isFormValid => isEmailValid && isPhoneNumberValid && isPasswordValid && isRePasswordValid;
+  // bool get isFormValid => isEmailValid && isPhoneNumberValid && isPasswordValid && isRePasswordValid;
+  bool get isFormValid => isEmailValid && isPasswordValid && isRePasswordValid;
 
   RegisterState({
     @required this.isEmailValid,
-    @required this.isPhoneNumberValid,
+    //@required this.isPhoneNumberValid,
     @required this.isPasswordValid,
     @required this.isRePasswordValid,
     @required this.isSubmitting,
@@ -29,7 +30,7 @@ class RegisterState {
   factory RegisterState.empty() {
     return RegisterState(
       isEmailValid: true,
-      isPhoneNumberValid: true,
+      //isPhoneNumberValid: true,
       isPasswordValid: true,
       isRePasswordValid: true,
       isSubmitting: false,
@@ -42,7 +43,7 @@ class RegisterState {
   factory RegisterState.loading() {
     return RegisterState(
       isEmailValid: true,
-      isPhoneNumberValid: true,
+      //isPhoneNumberValid: true,
       isPasswordValid: true,
       isRePasswordValid: true,
       isSubmitting: true,
@@ -55,7 +56,7 @@ class RegisterState {
   factory RegisterState.failure({String errorMsg}) {
     return RegisterState(
       isEmailValid: true,
-      isPhoneNumberValid: true,
+      //isPhoneNumberValid: true,
       isPasswordValid: true,
       isRePasswordValid: true,
       isSubmitting: false,
@@ -69,7 +70,7 @@ class RegisterState {
   factory RegisterState.success() {
     return RegisterState(
       isEmailValid: true,
-      isPhoneNumberValid: true,
+      //isPhoneNumberValid: true,
       isPasswordValid: true,
       isRePasswordValid: true,
       isSubmitting: false,
@@ -81,7 +82,7 @@ class RegisterState {
   factory RegisterState.userVerified() {
     return RegisterState(
       isEmailValid: true,
-      isPhoneNumberValid: true,
+      //isPhoneNumberValid: true,
       isPasswordValid: true,
       isRePasswordValid: true,
       isSubmitting: false,
@@ -122,7 +123,7 @@ class RegisterState {
   }) {
     return RegisterState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
-      isPhoneNumberValid: isPhoneNumberValid ?? this.isPhoneNumberValid,
+      //isPhoneNumberValid: isPhoneNumberValid ?? this.isPhoneNumberValid,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isRePasswordValid: isRePasswordValid ?? this.isRePasswordValid,
       isSubmitting: isSubmitting ?? this.isSubmitting,
@@ -136,7 +137,7 @@ class RegisterState {
   String toString() {
     return '''RegisterState {
       isEmailValid: $isEmailValid,
-      isPhoneNumberValid: $isPhoneNumberValid,
+      
       isPasswordValid: $isPasswordValid,
       isRePasswordValid: $isRePasswordValid,
       isSubmitting: $isSubmitting,

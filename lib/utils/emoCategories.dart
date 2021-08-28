@@ -51,7 +51,7 @@ class EmoCategories {
   }
 
   String getEmoLabel(String label, double score, BuildContext context) {
-    String emoLabel = "Undefined";
+    String emoLabel = "Neutral";
     if (label == "negative") {
       if (score > 90) //Highly negative
         emoLabel = getTranslated(context, "HIGHLY_NEGATIVE_LABEL");

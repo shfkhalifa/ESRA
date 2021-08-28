@@ -12,7 +12,7 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
+  //final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _rePasswordController = TextEditingController();
 
@@ -21,8 +21,8 @@ class _RegisterFormState extends State<RegisterForm> {
   bool get isPopulated =>
       _emailController.text.isNotEmpty &&
       _passwordController.text.isNotEmpty &&
-      _rePasswordController.text.isNotEmpty &&
-      _phoneNumberController.text.isNotEmpty;
+      _rePasswordController.text.isNotEmpty;
+  //_phoneNumberController.text.isNotEmpty;
 
   bool isRegisterButtonEnabled(RegisterState state) {
     return state.isFormValid && isPopulated && !state.isSubmitting;
@@ -33,7 +33,7 @@ class _RegisterFormState extends State<RegisterForm> {
     super.initState();
     _registerBloc = BlocProvider.of<RegisterBloc>(context);
     _emailController.addListener(_onEmailChanged);
-    _passwordController.addListener(_onPhoneNumberChanged);
+    //_passwordController.addListener(_onPhoneNumberChanged);
     _passwordController.addListener(_onPasswordChanged);
     _rePasswordController.addListener(_onRePasswordChanged);
   }
@@ -65,8 +65,8 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state.isSuccess) {
           // BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           Map<String, String> creds = {
-            "email": _emailController.text,
-            "phone": _phoneNumberController.text
+            "email": _emailController.text
+            //"phone": _phoneNumberController.text
           };
           // Send verification code here
           //Navigator.of(context).pushNamed('/verifyPhoneNumber', arguments: creds);
@@ -192,11 +192,11 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  void _onPhoneNumberChanged() {
-    _registerBloc.add(
-      PhoneNumberChanged(phoneNumber: _phoneNumberController.text),
-    );
-  }
+  // void _onPhoneNumberChanged() {
+  //   _registerBloc.add(
+  //     PhoneNumberChanged(phoneNumber: _phoneNumberController.text),
+  //   );
+  // }
 
   void _onPasswordChanged() {
     _registerBloc.add(
@@ -219,7 +219,7 @@ class _RegisterFormState extends State<RegisterForm> {
       Submitted(
         email: _emailController.text,
         password: _passwordController.text,
-        phoneNumber: _phoneNumberController.text,
+        //phoneNumber: _phoneNumberController.text,
       ),
     );
   }

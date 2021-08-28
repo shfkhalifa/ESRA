@@ -22,14 +22,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) async* {
     if (event is EmailChanged) {
       yield* _mapEmailChangedToState(event.email);
-    } else if (event is PhoneNumberChanged) {
-      yield* _mapPhoneNumberChangedToState(event.phoneNumber);
+      // } else if (event is PhoneNumberChanged) {
+      //   yield* _mapPhoneNumberChangedToState(event.phoneNumber);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is RePasswordChanged) {
       yield* _mapRePasswordChangedToState(event.rePassword, event.password);
     } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.email, event.password, event.phoneNumber);
+      yield* _mapFormSubmittedToState(event.email, event.password);
     } else if (event is VerifyUser) {
       yield* _mapVerifyUserToSate(event.smsCode, event.email);
     }
@@ -41,11 +41,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  Stream<RegisterState> _mapPhoneNumberChangedToState(String phoneNumber) async* {
-    yield state.update(
-      isPhoneNumberValid: Validators.isPhonNumberValid(phoneNumber),
-    );
-  }
+  // Stream<RegisterState> _mapPhoneNumberChangedToState(
+  //     String phoneNumber) async* {
+  //   yield state.update(
+  //     isPhoneNumberValid: Validators.isPhonNumberValid(phoneNumber),
+  //   );
+  // }
 
   Stream<RegisterState> _mapPasswordChangedToState(String password) async* {
     yield state.update(
@@ -53,7 +54,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  Stream<RegisterState> _mapRePasswordChangedToState(String rePassword, String password) async* {
+  Stream<RegisterState> _mapRePasswordChangedToState(
+      String rePassword, String password) async* {
     yield state.update(
       isRePasswordValid: rePassword == password,
     );
@@ -62,7 +64,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Stream<RegisterState> _mapFormSubmittedToState(
     String email,
     String password,
-    String phoneNumber,
+    // String phoneNumber,
   ) async* {
     yield RegisterState.loading();
     try {
@@ -70,7 +72,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         email,
         password,
       );
-      bool userIsVerified = await _userRepository.sendVerCode(phoneNumber: phoneNumber, email: email);
+      bool userIsVerified = await _userRepository.sendVerCode(email: email);
       if (userIsVerified)
         yield RegisterState.userVerified();
       else
@@ -81,7 +83,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
 // if they enter the smsCode
-  Stream<RegisterState> _mapVerifyUserToSate(String smsCode, String email) async* {
+  Stream<RegisterState> _mapVerifyUserToSate(
+      String smsCode, String email) async* {
     yield RegisterState.loading();
     try {
       await _userRepository.verifyPhoneNo(smsCode: smsCode, email: email);

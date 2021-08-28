@@ -75,7 +75,8 @@ class _EvaluatePageState extends State<EvaluatePage> {
         imageSource = ImageSource.camera;
         break;
     }
-    final PickedFile pickedImage = await _picker.getImage(source: imageSource);
+    final PickedFile pickedImage = await _picker.getImage(
+        source: imageSource, maxHeight: 300, maxWidth: 400);
     if (pickedImage != null) {
       File tmpFile = File(pickedImage.path);
 

@@ -97,8 +97,7 @@ class UserRepository {
   // Phone Verification Id
   String _verificationId;
 
-  Future<bool> sendVerCode(
-      {@required String phoneNumber, @required String email}) async {
+  Future<bool> sendVerCode({@required String email}) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     bool isUserAutoVerified = false;
 
@@ -124,17 +123,17 @@ class UserRepository {
       } catch (e) {}
     };
 
-    final PhoneVerificationFailed veriFailed = (AuthException exception) {
-      throw ErrorHandler(Strings.PHONE_VERIFICATION_ERROR);
-    };
-    await _auth.verifyPhoneNumber(
-      phoneNumber: "+974" + phoneNumber,
-      codeAutoRetrievalTimeout: autoRetrieve,
-      codeSent: smsCodeSent,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: verificationCompleted,
-      verificationFailed: veriFailed,
-    );
+    // final PhoneVerificationFailed veriFailed = (AuthException exception) {
+    //   throw ErrorHandler(Strings.PHONE_VERIFICATION_ERROR);
+    // };
+    // await _auth.verifyPhoneNumber(
+    //   phoneNumber: "+974" + phoneNumber,
+    //   codeAutoRetrievalTimeout: autoRetrieve,
+    //   codeSent: smsCodeSent,
+    //   timeout: const Duration(seconds: 5),
+    //   verificationCompleted: verificationCompleted,
+    //   verificationFailed: veriFailed,
+    // );
 
     return isUserAutoVerified;
   }

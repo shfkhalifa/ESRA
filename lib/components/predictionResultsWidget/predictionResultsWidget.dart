@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:division/division.dart';
-import 'package:esra/utils/constants.dart';
+//import 'package:esra/utils/constants.dart';
+import 'package:path/path.dart' as path;
 import 'package:esra/utils/emoCategories.dart';
 import 'package:flutter/material.dart';
 import 'package:esra/localization/language_constants.dart';
@@ -20,6 +21,12 @@ class PredictionResultWidget extends StatelessWidget {
     // print(
     //     '\n\n got the following label and score inside PredictionResultWidget $label, $score');
     EmoCategories emo = EmoCategories();
+
+    String hmBasefile = path.basename(image.path);
+    hmBasefile = 'hm_' + hmBasefile;
+    String imageDir = path.dirname(image.path);
+
+    String hmPath = '$imageDir/$hmBasefile';
     return Container(
       child: Parent(
         style: ParentStyle()..margin(all: 14),
@@ -41,9 +48,22 @@ class PredictionResultWidget extends StatelessWidget {
                   backgroundColor: Color(0xffffffff),
                 )
               else
-                CircleAvatar(
-                  radius: 100.0,
-                  backgroundImage: FileImage(image), // storageImage
+                Parent(
+                  // style: ParentStyle()
+                  //   ..background.image(path: hmPath, fit: BoxFit.contain)
+                  //   ..height(350),
+                  child: Container(
+                    height: 350.0,
+                    // width: 120.0,
+                    decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                        image: new FileImage(File(hmPath)),
+                        fit: BoxFit.cover,
+                      ),
+                      // borderRadius:
+                      //     new BorderRadius.all(const Radius.circular(90.0)),
+                    ),
+                  ),
                 ),
 
               Parent(

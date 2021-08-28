@@ -5,6 +5,7 @@ import '../../models/child.dart';
 import '../../styles.dart';
 import 'childChart.dart';
 import 'style.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class ChildDetails extends StatefulWidget {
   final Child child;
@@ -23,7 +24,7 @@ class _ChildDetailsState extends State<ChildDetails> {
   @override
   void initState() {
     super.initState();
-    _selections = [false, false, true];
+    _selections = [true, false, false];
   }
 
   @override
@@ -60,6 +61,138 @@ class _ChildDetailsState extends State<ChildDetails> {
       return percent;
     }
 
+    Widget _getStatCard(String title, subtitle, double value) {
+      print('value $value');
+      return Card(
+        child: Parent(
+          style: ParentStyle()
+            ..width(MediaQuery.of(context).size.width)
+            ..height(120)
+            ..padding(all: 10),
+          //..padding(vertical: 24, horizontal: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                  text: title,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: subtitle,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal)),
+                  ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: PieChart(
+                  PieChartData(
+                    borderData: FlBorderData(show: false),
+                    //centerSpaceRadius: 20,
+                    sections: [
+                      PieChartSectionData(
+                          title: 'Yes',
+                          titleStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                          value: value,
+                          color: Colors.lightGreen,
+                          radius: 50),
+                      PieChartSectionData(
+                          //title: 'No',
+                          showTitle: false,
+                          value: 100 - value,
+                          color: Colors.orangeAccent,
+                          radius: 40),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget _getStatCard3(
+        String title, subtitle, double value1, double value2, double value3) {
+      return Card(
+        child: Parent(
+          style: ParentStyle()
+            ..width(MediaQuery.of(context).size.width)
+            ..height(120)
+            ..padding(all: 10),
+          //..padding(vertical: 24, horizontal: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                  text: title,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: subtitle,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal)),
+                  ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: PieChart(
+                  PieChartData(
+                    borderData: FlBorderData(show: false),
+                    //centerSpaceRadius: 20,
+                    sections: [
+                      PieChartSectionData(
+                          title: 'Sad',
+                          titleStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                          value: value1,
+                          color: Colors.red,
+                          radius: 48),
+                      PieChartSectionData(
+                          titleStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                          title: 'Happy',
+                          showTitle: true,
+                          value: value2,
+                          color: Colors.green,
+                          radius: 50),
+                      PieChartSectionData(
+                          titleStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                          title: 'Neutral',
+                          showTitle: false,
+                          value: value3,
+                          color: Colors.orangeAccent,
+                          radius: 48),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_capitalizeName(widget.child.name)),
@@ -75,17 +208,6 @@ class _ChildDetailsState extends State<ChildDetails> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  // Icon(
-                  //   Icons.sentiment_satisfied,
-                  //   size: 100,
-                  //   color: Colors.green,
-                  // ),
-                  // SizedBox(height: 18),
-                  // Txt(
-                  //   "${widget.child.name} shows positive emotions",
-                  //   style: ChildDetailsStyle.emotionStateInfo,
-                  // ),
-                  // Divider(color: AppStyles.lightBlue),
                   ListTile(
                     leading: Image(
                       image: AssetImage(AppIcons.year),
@@ -171,47 +293,33 @@ class _ChildDetailsState extends State<ChildDetails> {
                   ///
                   /// FAQ - Support
                   ///
-                  Divider(color: AppStyles.lightBlue),
+                  // Divider(color: AppStyles.lightBlue),
                   if (widget.child.predictions.length > 0)
-                    ListTile(
-                        leading: Icon(Icons.assessment),
-                        title: Text(
-                          'You and ${widget.child.name} talked about her drawings ' +
-                              (_getBondingMeasure() * 100).floor().toString() +
-                              '% of the time',
-                          style: Theme.of(context).textTheme.body2,
-                        )),
+                    // ListTile(
+                    //     leading: Icon(Icons.assessment),
+                    //     title: Text(
+                    //       'You and ${widget.child.name} talked about her drawings ' +
+                    //           (_getBondingMeasure() * 100).floor().toString() +
+                    //           '% of the time',
+                    //       style: Theme.of(context).textTheme.body2,
+                    //     )),
+                    _getStatCard(
+                        'Bonding Measure\n',
+                        'Did you talk about the drawings?\n',
+                        _getBondingMeasure() * 100),
                   if (widget.child.predictions.length > 0)
-                    ListTile(
-                        leading: Icon(Icons.assessment),
-                        title: Text(
-                          '${widget.child.name} said there was a story for her drawings ' +
-                              (_getHasStoryMeasure() * 100).floor().toString() +
-                              '% of the time',
-                          style: Theme.of(context).textTheme.body2,
-                        )),
+                    _getStatCard(
+                        'Story of Drawings\n',
+                        'Did the drawing have a story?\n',
+                        _getHasStoryMeasure() * 100),
                   if (widget.child.predictions.length > 0)
-                    ListTile(
-                        leading: Icon(Icons.assessment),
-                        title: Text(
-                          '${widget.child.name} said she was in the picture ' +
-                              (_getChildInPhotoMeasure() * 100)
-                                  .floor()
-                                  .toString() +
-                              '% of the time',
-                          style: Theme.of(context).textTheme.body2,
-                        )),
+                    _getStatCard(
+                        'Drawing Self\n',
+                        'Was ${widget.child.name} in the drawing?\n',
+                        _getChildInPhotoMeasure() * 100),
                   if (widget.child.predictions.length > 0)
-                    ListTile(
-                        leading: Icon(Icons.assessment),
-                        title: Text(
-                          '${widget.child.name} said she felt sad while drawing ' +
-                              (_getFeelingSadMeasure() * 100)
-                                  .floor()
-                                  .toString() +
-                              '% of the time',
-                          style: Theme.of(context).textTheme.body2,
-                        )),
+                    _getStatCard3(
+                        'Feelings\n', 'How did child feel?\n', 40, 50, 10),
 
                   ListTile(
                     onTap: () {
